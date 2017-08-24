@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VideoAppDAL\VideoAppDAL.csproj" />
+    <ProjectReference Include="..\VidepAppEntity\VidepAppEntity.csproj" />
+  </ItemGroup>
+
 </Project>
