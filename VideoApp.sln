@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppGUI", "VideoApp\VideoAppGUI.csproj", "{EE202601-AE74-4E5A-9FF5-CC22F06635E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppGUI", "VideoApp\VideoAppGUI.csproj", "{EE202601-AE74-4E5A-9FF5-CC22F06635E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppBLL", "VideoAppBLL\VideoAppBLL.csproj", "{BBEA067E-503C-4581-B8FF-25B6EA8364A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppBLL", "VideoAppBLL\VideoAppBLL.csproj", "{BBEA067E-503C-4581-B8FF-25B6EA8364A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VidepAppEntity", "VidepAppEntity\VidepAppEntity.csproj", "{7244F5D7-45D0-4BEF-BDE0-E1941F0DD8E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VidepAppEntity", "VidepAppEntity\VidepAppEntity.csproj", "{7244F5D7-45D0-4BEF-BDE0-E1941F0DD8E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppDAL", "VideoAppDAL\VideoAppDAL.csproj", "{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppDAL", "VideoAppDAL\VideoAppDAL.csproj", "{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppBLLTests", "VideoAppBLLTests\VideoAppBLLTests.csproj", "{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

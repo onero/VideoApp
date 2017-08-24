@@ -1,0 +1,16 @@
+language: csharp
+mono: none
+dotnet: 1.1.0
+dist: trusty
+install:
+- dotnet restore
+script:
+- dotnet build
+- dotnet test VideoAppBLLTests/VideoAppBLLTests.csproj
+branches:
+  only:
+  - master
+  - development
+notifications:
+  slack: cs2016a:MrE8tgSmsfcVCMVTa1JgT78G
+  email: false  
