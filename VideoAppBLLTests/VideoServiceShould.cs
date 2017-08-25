@@ -9,7 +9,7 @@ namespace VideoAppBLLTests
 {
     public class VideoServiceShould
     {
-        private readonly IService<Video> _videoService; 
+        private readonly IService<Video> _videoService;
 
         private static readonly Video MockVideo = new Video()
         {
@@ -19,8 +19,8 @@ namespace VideoAppBLLTests
 
         public VideoServiceShould()
         {
-            var facade = new DALFacade();
-            _videoService = new VideoService(facade);
+            var bllFacade = new BLLFacade();
+            _videoService = bllFacade.VideoService;
             _videoService.ClearAll();
         }
 
@@ -49,6 +49,45 @@ namespace VideoAppBLLTests
             var videos = _videoService.GetAll();
 
             Assert.Empty(videos);
+        }
+
+        [Fact]
+        public void GetOneVideoById()
+        {
+            var createdVideo = _videoService.Create(MockVideo);
+
+            var videoFromSearch = _videoService.GetById(createdVideo.Id);
+
+            Assert.Equal(createdVideo, videoFromSearch);
+        }
+
+        [Fact]
+        public void FailGetOneVideoByWrongId()
+        {
+            _videoService.Create(MockVideo);
+            var nonExistingId = 0;
+            var videoFromSearch = _videoService.GetById(nonExistingId);
+            Assert.Null(videoFromSearch);
+        }
+
+        [Fact]
+        public void DeleteVideoById()
+        {
+            var createdVideo = _videoService.Create(MockVideo);
+            var idOfCreatedVideo = createdVideo.Id;
+            _videoService.Delete(idOfCreatedVideo);
+            var videos = _videoService.GetAll();
+            Assert.DoesNotContain(createdVideo, videos);
+        }
+
+        [Fact]
+        public void ShouldUpdateVideo()
+        {
+            //var createdVideo = _videoService.Create(MockVideo);
+            //createdVideo.Title = "Awesome";
+            //var updatedVideo = _videoService.Update(createdVideo);
+
+            //Assert.Equal(createdVideo, updatedVideo);
         }
 
     }

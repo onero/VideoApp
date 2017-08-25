@@ -5,14 +5,14 @@ using VidepAppEntity;
 
 namespace VideoAppDAL.UnitOfWork
 {
-    public class UnitOfWorkMem : IUnitOfWork
+    internal class UnitOfWorkMem : IUnitOfWork
     {
         private readonly InMemoryContext _context;
         public IRepository<Video> VideoRepository { get; }
 
-        public UnitOfWorkMem()
+        public UnitOfWorkMem(InMemoryContext context)
         {
-            _context = new InMemoryContext();
+            _context = context;
             VideoRepository = new VideoRepository(_context);
         }
 

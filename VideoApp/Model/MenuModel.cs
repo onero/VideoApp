@@ -2,12 +2,12 @@
 {
     public class MenuModel
     {
-        public string[] MenuItems =
+        public readonly string[] MenuItems =
         {
-            "List All Customers",
-            "Add Customer",
-            "Delete Customer",
-            "Edit Customer",
+            "List All Videos",
+            "Add Video",
+            "Delete Video",
+            "Edit Video",
             "Exit"
         };
     }

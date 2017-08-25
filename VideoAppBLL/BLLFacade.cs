@@ -6,6 +6,7 @@ namespace VideoAppBLL
 {
     public class BLLFacade
     {
-        public IService<Video> VideoService => new VideoService(new DALFacade());
+
+        public IService<Video> VideoService => new VideoService(new DALFacadeMem());
     }
 }

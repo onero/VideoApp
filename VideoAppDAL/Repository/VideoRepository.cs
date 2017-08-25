@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using VideoAppDAL.Context;
 using VideoAppDAL.Interfaces;
 using VidepAppEntity;
 
 namespace VideoAppDAL.Repository
 {
-    public class VideoRepository : IRepository<Video>
+    internal class VideoRepository : IRepository<Video>
     {
         private readonly InMemoryContext _context;
 
@@ -13,6 +14,7 @@ namespace VideoAppDAL.Repository
         {
             _context = context;
         }
+
         public Video Create(Video video)
         {
             _context.Videos.Add(video);
@@ -29,18 +31,21 @@ namespace VideoAppDAL.Repository
 
         public IEnumerable<Video> GetAll()
         {
-            var videos = new List<Video>(_context.Videos);
-            return videos;
+            return new List<Video>(_context.Videos);
+            ;
         }
 
         public Video GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Videos.FirstOrDefault(v => v.Id == id);
         }
 
         public bool Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var video = GetById(id);
+            if (video == null) return false;
+            _context.Videos.Remove(video);
+            return true;
         }
     }
 }
