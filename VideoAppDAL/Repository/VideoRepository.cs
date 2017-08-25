@@ -19,7 +19,7 @@ namespace VideoAppDAL.Repository
 
         public IEnumerable<Video> GetAll()
         {
-            throw new System.NotImplementedException();
+            return new List<Video>(_context.Videos);
         }
 
         public Video GetById(int id)

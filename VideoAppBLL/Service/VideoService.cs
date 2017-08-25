@@ -6,7 +6,7 @@ namespace VideoAppBLL.Service
 {
     public class VideoService : IService<Video>
     {
-        private DALFacade _facade;
+        private readonly DALFacade _facade;
 
         public VideoService(DALFacade facade)
         {
@@ -25,7 +25,10 @@ namespace VideoAppBLL.Service
 
         public IEnumerable<Video> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                return unitOfWork.VideoRepository.GetAll();
+            }
         }
 
         public Video GetById(int id)
