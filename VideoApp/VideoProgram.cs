@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CustomerAppUI.Model;
 using VideoAppBLL;
 using VidepAppEntity;
@@ -17,7 +18,7 @@ namespace VideoAppGUI
             {
                 ShowMenu(MenuModel.MenuItems);
 
-                var userSelection = GetInputFromUser();
+                var userSelection = GetInputFromUser(MenuModel.MenuItems.Length);
 
                 ReactToUserInput(userSelection);
             }
@@ -110,12 +111,38 @@ namespace VideoAppGUI
             Console.Write("Title: ");
             var title = Console.ReadLine();
 
+            var genre = GetGenreFromUser();
             var createdVideo = BLLFacade.VideoService.Create(new Video
             {
-                Title = title
+                Title = title,
+                Genre = genre
             });
             Console.WriteLine("\nVideo created:");
             DisplayVideo(createdVideo);
+        }
+
+        private static Genre GetGenreFromUser()
+        {
+            Console.WriteLine();
+            Genre chosenGenre;
+            var genres = Enum.GetNames(typeof(Genre));
+            foreach (var genre in genres)
+            {
+                Console.WriteLine($"Genre: {genre}");
+            }
+            bool genreAccepted;
+            do
+            {
+                Console.Write($"Please write genre name: ");
+                var genre = Console.ReadLine();
+                genreAccepted = Enum.TryParse(genre, true, out chosenGenre);
+                if (!genreAccepted)
+                {
+                    Console.WriteLine($"{genre} is not on our list of genres...");
+                    Console.WriteLine("We currently don't support adding genres, but this may come in the future");
+                }
+            } while (!genreAccepted);
+            return chosenGenre;
         }
 
         /// <summary>
@@ -130,7 +157,7 @@ namespace VideoAppGUI
 
         private static void DisplayVideo(Video videoToDisplay)
         {
-            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title}");
+            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title} Genre: {videoToDisplay.Genre}");
         }
 
 
@@ -147,14 +174,14 @@ namespace VideoAppGUI
         ///     Get input from user
         /// </summary>
         /// <returns></returns>
-        private static int GetInputFromUser()
+        private static int GetInputFromUser(int max)
         {
             Console.Write("Your input: ");
             int selection;
             while (!int.TryParse(Console.ReadLine(), out selection)
                    || selection < 1
-                   || selection > 5)
-                Console.WriteLine("Please select a number between 1-5");
+                   || selection > max)
+                Console.WriteLine($"Please select a number between 1-{max}");
 
             return selection;
         }
