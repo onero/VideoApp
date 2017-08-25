@@ -17,8 +17,14 @@ namespace VideoAppDAL.Repository
 
         public Video Create(Video video)
         {
-            _context.Videos.Add(video);
-            return video;
+            var createdVideo = _context.Videos.Add(video);
+            return createdVideo.Entity;
+        }
+
+        public Video Update(Video videoToUpdate)
+        {
+            var updatedVideo = _context.Videos.Update(videoToUpdate);
+            return updatedVideo.Entity;
         }
 
         public void ClearAll()

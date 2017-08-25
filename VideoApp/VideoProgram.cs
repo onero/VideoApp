@@ -65,7 +65,9 @@ namespace VideoAppGUI
             {
                 Console.Write("Title: ");
                 video.Title = Console.ReadLine();
-                BLLFacade.VideoService.Update(video);
+                var updatedVideo = BLLFacade.VideoService.Update(video);
+                Console.WriteLine("\nVideo updated!");
+                DisplayVideo(updatedVideo);
             }
             else
             {
@@ -97,7 +99,7 @@ namespace VideoAppGUI
                 BLLFacade.VideoService.Delete(videoFound.Id);
 
             var response = videoFound == null ? "Video not found" : "Video was deleted";
-            Console.WriteLine(response);
+            Console.WriteLine($"\n{response}");
         }
 
         /// <summary>

@@ -14,6 +14,8 @@ namespace VideoAppDAL.Interfaces
 
         bool Delete(int id);
 
+        TEntity Update(TEntity entity);
+
         void ClearAll();
     }
 }

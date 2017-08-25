@@ -59,7 +59,12 @@ namespace VideoAppBLL.Service
 
         public Video Update(Video entityToUpdate)
         {
-            throw new NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                var updatedVideo = unitOfWork.VideoRepository.Update(entityToUpdate);
+                unitOfWork.Complete();
+                return updatedVideo;
+            }
         }
 
         public void ClearAll()

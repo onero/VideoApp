@@ -83,11 +83,11 @@ namespace VideoAppBLLTests
         [Fact]
         public void ShouldUpdateVideo()
         {
-            //var createdVideo = _videoService.Create(MockVideo);
-            //createdVideo.Title = "Awesome";
-            //var updatedVideo = _videoService.Update(createdVideo);
+            var createdVideo = _videoService.Create(MockVideo);
+            createdVideo.Title = "Awesome";
+            var updatedVideo = _videoService.Update(createdVideo);
 
-            //Assert.Equal(createdVideo, updatedVideo);
+            Assert.Equal(createdVideo, updatedVideo);
         }
 
     }
