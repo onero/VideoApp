@@ -8,6 +8,7 @@ namespace VideoAppGUI
 {
     internal static class VideoProgram
     {
+        private const string Yes = "y";
         private static readonly BLLFacade BLLFacade = new BLLFacade();
         private static readonly MenuModel MenuModel = new MenuModel();
         private static bool _userIsDone;
@@ -64,8 +65,22 @@ namespace VideoAppGUI
             var video = FindVideoById();
             if (video != null)
             {
-                Console.Write("Title: ");
-                video.Title = Console.ReadLine();
+                // Prompt Title
+                var userWantsToEditTitle = PromptUserForEdit("title");
+                if (userWantsToEditTitle)
+                {
+
+                    Console.Write("Title: ");
+                    video.Title = Console.ReadLine();
+                }
+
+                // Prompt for Genre
+                var userWantsToEditGenre = PromptUserForEdit("genre");
+                if (userWantsToEditGenre)
+                {
+                    video.Genre = GetGenreFromUser();
+                }
+
                 var updatedVideo = BLLFacade.VideoService.Update(video);
                 Console.WriteLine("\nVideo updated!");
                 DisplayVideo(updatedVideo);
@@ -74,6 +89,24 @@ namespace VideoAppGUI
             {
                 Console.WriteLine("Video not Found!");
             }
+        }
+
+        private static bool PromptUserForEdit(string choiceToEdit)
+        {
+            bool validUserInput = false;
+            bool userResponse;
+            do
+            {
+                Console.Write($"Would you like to change the {choiceToEdit}? ('y' = yes, 'n' = no): ");
+                var userResponseAsString = Console.ReadLine().Normalize().ToLower();
+
+                if (userResponseAsString.Equals(Yes) || userResponseAsString.Equals("n"))
+                {
+                    validUserInput = true;
+                }
+                userResponse = userResponseAsString.Equals(Yes);
+            } while (!validUserInput);
+            return userResponse;
         }
 
         /// <summary>
