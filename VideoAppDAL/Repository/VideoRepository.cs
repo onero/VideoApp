@@ -1,25 +1,36 @@
 ﻿using System.Collections.Generic;
 using VideoAppDAL.Context;
+using VideoAppDAL.Interfaces;
 using VidepAppEntity;
 
 namespace VideoAppDAL.Repository
 {
     public class VideoRepository : IRepository<Video>
     {
-        private InMemoryContext _context;
+        private readonly InMemoryContext _context;
 
-        public VideoRepository()
+        public VideoRepository(InMemoryContext context)
         {
-            _context = new InMemoryContext();
+            _context = context;
         }
-        public Video Create(Video customerToCreate)
+        public Video Create(Video video)
         {
-            throw new System.NotImplementedException();
+            _context.Videos.Add(video);
+            return video;
+        }
+
+        public void ClearAll()
+        {
+            foreach (var contextVideo in _context.Videos)
+            {
+                _context.Videos.Remove(contextVideo);
+            }
         }
 
         public IEnumerable<Video> GetAll()
         {
-            return new List<Video>(_context.Videos);
+            var videos = new List<Video>(_context.Videos);
+            return videos;
         }
 
         public Video GetById(int id)

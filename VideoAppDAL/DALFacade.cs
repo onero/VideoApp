@@ -1,4 +1,6 @@
-﻿namespace VideoAppDAL
+﻿using VideoAppDAL.Interfaces;
+
+namespace VideoAppDAL
 {
     public class DALFacade
     {

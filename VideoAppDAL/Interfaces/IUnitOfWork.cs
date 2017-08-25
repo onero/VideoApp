@@ -1,7 +1,7 @@
 ﻿using System;
 using VidepAppEntity;
 
-namespace VideoAppDAL
+namespace VideoAppDAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

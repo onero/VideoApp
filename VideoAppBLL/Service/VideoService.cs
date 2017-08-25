@@ -13,9 +13,14 @@ namespace VideoAppBLL.Service
             _facade = facade;
         }
 
-        public Video Create(Video entityToCreate)
+        public Video Create(Video video)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                var createdVideo = unitOfWork.VideoRepository.Create(video);
+                unitOfWork.Complete();
+                return createdVideo;
+            }
         }
 
         public IList<Video> CreateAll(IList<Video> customers)
@@ -27,7 +32,8 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                return unitOfWork.VideoRepository.GetAll();
+                var videos = unitOfWork.VideoRepository.GetAll();
+                return videos;
             }
         }
 
@@ -44,6 +50,15 @@ namespace VideoAppBLL.Service
         public Video Update(Video entityToUpdate)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void ClearAll()
+        {
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                unitOfWork.VideoRepository.ClearAll();
+                unitOfWork.Complete();
+            }
         }
     }
 }

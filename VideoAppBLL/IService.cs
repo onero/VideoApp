@@ -15,5 +15,7 @@ namespace VideoAppBLL
         bool Delete(int id);
 
         TEntity Update(TEntity entityToUpdate);
+
+        void ClearAll();
     }
 }
