@@ -85,6 +85,7 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _videoService.Create(MockVideo);
             createdVideo.Title = "Awesome";
+            createdVideo.Genre = Genre.Romance;
             var updatedVideo = _videoService.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);
