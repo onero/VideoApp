@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CustomerAppUI.Model;
 using VideoAppBLL;
 using VidepAppEntity;
@@ -7,6 +8,7 @@ namespace VideoAppGUI
 {
     internal static class VideoProgram
     {
+        private const string Yes = "y";
         private static readonly BLLFacade BLLFacade = new BLLFacade();
         private static readonly MenuModel MenuModel = new MenuModel();
         private static bool _userIsDone;
@@ -17,7 +19,7 @@ namespace VideoAppGUI
             {
                 ShowMenu(MenuModel.MenuItems);
 
-                var userSelection = GetInputFromUser();
+                var userSelection = GetInputFromUser(MenuModel.MenuItems.Length);
 
                 ReactToUserInput(userSelection);
             }
@@ -63,14 +65,48 @@ namespace VideoAppGUI
             var video = FindVideoById();
             if (video != null)
             {
-                Console.Write("Title: ");
-                video.Title = Console.ReadLine();
-                BLLFacade.VideoService.Update(video);
+                // Prompt Title
+                var userWantsToEditTitle = PromptUserForEdit("title");
+                if (userWantsToEditTitle)
+                {
+
+                    Console.Write("Title: ");
+                    video.Title = Console.ReadLine();
+                }
+
+                // Prompt for Genre
+                var userWantsToEditGenre = PromptUserForEdit("genre");
+                if (userWantsToEditGenre)
+                {
+                    video.Genre = GetGenreFromUser();
+                }
+
+                var updatedVideo = BLLFacade.VideoService.Update(video);
+                Console.WriteLine("\nVideo updated!");
+                DisplayVideo(updatedVideo);
             }
             else
             {
                 Console.WriteLine("Video not Found!");
             }
+        }
+
+        private static bool PromptUserForEdit(string choiceToEdit)
+        {
+            bool validUserInput = false;
+            bool userResponse;
+            do
+            {
+                Console.Write($"Would you like to change the {choiceToEdit}? ('y' = yes, 'n' = no): ");
+                var userResponseAsString = Console.ReadLine().Normalize().ToLower();
+
+                if (userResponseAsString.Equals(Yes) || userResponseAsString.Equals("n"))
+                {
+                    validUserInput = true;
+                }
+                userResponse = userResponseAsString.Equals(Yes);
+            } while (!validUserInput);
+            return userResponse;
         }
 
         /// <summary>
@@ -97,7 +133,7 @@ namespace VideoAppGUI
                 BLLFacade.VideoService.Delete(videoFound.Id);
 
             var response = videoFound == null ? "Video not found" : "Video was deleted";
-            Console.WriteLine(response);
+            Console.WriteLine($"\n{response}");
         }
 
         /// <summary>
@@ -108,12 +144,38 @@ namespace VideoAppGUI
             Console.Write("Title: ");
             var title = Console.ReadLine();
 
+            var genre = GetGenreFromUser();
             var createdVideo = BLLFacade.VideoService.Create(new Video
             {
-                Title = title
+                Title = title,
+                Genre = genre
             });
             Console.WriteLine("\nVideo created:");
             DisplayVideo(createdVideo);
+        }
+
+        private static Genre GetGenreFromUser()
+        {
+            Console.WriteLine();
+            Genre chosenGenre;
+            var genres = Enum.GetNames(typeof(Genre));
+            foreach (var genre in genres)
+            {
+                Console.WriteLine($"Genre: {genre}");
+            }
+            bool genreAccepted;
+            do
+            {
+                Console.Write($"Please write genre name: ");
+                var genre = Console.ReadLine();
+                genreAccepted = Enum.TryParse(genre, true, out chosenGenre);
+                if (!genreAccepted)
+                {
+                    Console.WriteLine($"{genre} is not on our list of genres...");
+                    Console.WriteLine("We currently don't support adding genres, but this may come in the future");
+                }
+            } while (!genreAccepted);
+            return chosenGenre;
         }
 
         /// <summary>
@@ -128,7 +190,7 @@ namespace VideoAppGUI
 
         private static void DisplayVideo(Video videoToDisplay)
         {
-            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title}");
+            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title} Genre: {videoToDisplay.Genre}");
         }
 
 
@@ -145,14 +207,14 @@ namespace VideoAppGUI
         ///     Get input from user
         /// </summary>
         /// <returns></returns>
-        private static int GetInputFromUser()
+        private static int GetInputFromUser(int max)
         {
             Console.Write("Your input: ");
             int selection;
             while (!int.TryParse(Console.ReadLine(), out selection)
                    || selection < 1
-                   || selection > 5)
-                Console.WriteLine("Please select a number between 1-5");
+                   || selection > max)
+                Console.WriteLine($"Please select a number between 1-{max}");
 
             return selection;
         }
