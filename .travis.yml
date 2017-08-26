@@ -13,4 +13,5 @@ branches:
   - development
 notifications:
   slack: cs2016a:MrE8tgSmsfcVCMVTa1JgT78G
+    on_success: change
   email: false  
