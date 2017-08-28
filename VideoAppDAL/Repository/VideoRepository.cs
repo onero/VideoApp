@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VideoAppDAL.Context;
+using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
-using VidepAppEntity;
 
 namespace VideoAppDAL.Repository
 {
@@ -30,9 +31,7 @@ namespace VideoAppDAL.Repository
         public void ClearAll()
         {
             foreach (var contextVideo in _context.Videos)
-            {
                 _context.Videos.Remove(contextVideo);
-            }
         }
 
         public IEnumerable<Video> GetAll()
@@ -43,7 +42,9 @@ namespace VideoAppDAL.Repository
 
         public Video GetById(int id)
         {
-            return _context.Videos.FirstOrDefault(v => v.Id == id);
+            var video = _context.Videos.FirstOrDefault(v => v.Id == id);
+            if (video == null) throw new ArgumentException("Id not found");
+            return video;
         }
 
         public bool Delete(int id)

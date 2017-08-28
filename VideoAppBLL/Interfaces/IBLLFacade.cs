@@ -1,9 +1,9 @@
-﻿using VidepAppEntity;
+﻿using VideoAppBLL.BusinessObjects;
 
 namespace VideoAppBLL.Interfaces
 {
     public interface IBLLFacade
     {
-        IService<Video> VideoService { get; }
+        IService<VideoBO> VideoService { get; }
     }
 }

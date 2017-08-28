@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using VideoAppDAL;
+using System.Linq;
+using VideoAppBLL.BusinessObjects;
+using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
-using VidepAppEntity;
 
 namespace VideoAppBLL.Service
 {
-    internal class VideoService : IService<Video>
+    internal class VideoService : IService<VideoBO>
     {
         private readonly IDALFacade _facade;
 
@@ -15,35 +16,35 @@ namespace VideoAppBLL.Service
             _facade = facade;
         }
 
-        public Video Create(Video video)
+        public VideoBO Create(VideoBO video)
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var createdVideo = unitOfWork.VideoRepository.Create(video);
+                var createdVideo = unitOfWork.VideoRepository.Create(Convert(video));
                 unitOfWork.Complete();
-                return createdVideo;
+                return Convert(createdVideo);
             }
         }
 
-        public IList<Video> CreateAll(IList<Video> customers)
+        public IList<VideoBO> CreateAll(IList<VideoBO> customers)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Video> GetAll()
+        public IEnumerable<VideoBO> GetAll()
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var videos = unitOfWork.VideoRepository.GetAll();
+                var videos = unitOfWork.VideoRepository.GetAll().Select(Convert).ToList();
                 return videos;
             }
         }
 
-        public Video GetById(int id)
+        public VideoBO GetById(int id)
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                return unitOfWork.VideoRepository.GetById(id);
+                return Convert(unitOfWork.VideoRepository.GetById(id));
             }
         }
 
@@ -57,13 +58,13 @@ namespace VideoAppBLL.Service
             }
         }
 
-        public Video Update(Video entityToUpdate)
+        public VideoBO Update(VideoBO entityToUpdate)
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var updatedVideo = unitOfWork.VideoRepository.Update(entityToUpdate);
+                var updatedVideo = unitOfWork.VideoRepository.Update(Convert(entityToUpdate));
                 unitOfWork.Complete();
-                return updatedVideo;
+                return Convert(updatedVideo);
             }
         }
 
@@ -74,6 +75,36 @@ namespace VideoAppBLL.Service
                 unitOfWork.VideoRepository.ClearAll();
                 unitOfWork.Complete();
             }
+        }
+
+        /// <summary>
+        /// Convert Video to VideoBO
+        /// </summary>
+        /// <param name="video"></param>
+        /// <returns>VideoBO</returns>
+        private VideoBO Convert(Video video)
+        {
+            return new VideoBO()
+            {
+                Id = video.Id,
+                Title = video.Title,
+                Genre = video.Genre
+            };
+        }
+
+        /// <summary>
+        /// Convert VideoBO to VIDEO
+        /// </summary>
+        /// <param name="video"></param>
+        /// <returns>Video</returns>
+        private Video Convert(VideoBO video)
+        {
+            return new Video()
+            {
+                Id = video.Id,
+                Title = video.Title,
+                Genre = video.Genre
+            };
         }
     }
 }
