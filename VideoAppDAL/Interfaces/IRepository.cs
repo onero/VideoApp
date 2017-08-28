@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using VidepAppEntity;
 
 namespace VideoAppDAL.Interfaces
 {

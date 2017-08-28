@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
-using VidepAppEntity;
 
 namespace VideoAppDAL.Context
 {
@@ -10,11 +10,11 @@ namespace VideoAppDAL.Context
         private static readonly DbContextOptions<InMemoryContext> Options =
             new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase("VideoDB").Options;
 
-        public DbSet<Video> Videos { set; get; }
-
         //Options that we want in memory
         public InMemoryContext() : base(Options)
         {
         }
+
+        public DbSet<Video> Videos { set; get; }
     }
 }

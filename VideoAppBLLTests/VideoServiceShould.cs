@@ -1,6 +1,9 @@
+using System;
 using VideoAppBLL;
-using VidepAppEntity;
+using VideoAppBLL.BusinessObjects;
+using VideoAppDAL.Entities;
 using Xunit;
+using Xunit.Sdk;
 
 namespace VideoAppBLLTests
 {
@@ -13,9 +16,9 @@ namespace VideoAppBLLTests
             _videoService.ClearAll();
         }
 
-        private readonly IService<Video> _videoService;
+        private readonly IService<VideoBO> _videoService;
 
-        private static readonly Video MockVideo = new Video
+        private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
             Genre = Genre.Action
@@ -44,8 +47,8 @@ namespace VideoAppBLLTests
         {
             _videoService.Create(MockVideo);
             var nonExistingId = 0;
-            var videoFromSearch = _videoService.GetById(nonExistingId);
-            Assert.Null(videoFromSearch);
+            var videoFromSearch = Record.Exception( ()=> _videoService.GetById(nonExistingId));
+            Assert.IsType(typeof(ArgumentException), videoFromSearch);
         }
 
         [Fact]

@@ -1,5 +1,5 @@
 ﻿using System;
-using VidepAppEntity;
+using VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Interfaces
 {

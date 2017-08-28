@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VidepAppEntity;
+using VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Interfaces
 {

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using CustomerAppUI.Model;
 using VideoAppBLL;
-using VidepAppEntity;
+using VideoAppBLL.BusinessObjects;
+using VideoAppDAL.Entities;
 
 namespace VideoAppGUI
 {
@@ -58,7 +58,7 @@ namespace VideoAppGUI
         }
 
         /// <summary>
-        /// Prompt user for id to edit a Video
+        ///     Prompt user for id to edit a Video
         /// </summary>
         private static void EditVideo()
         {
@@ -69,7 +69,6 @@ namespace VideoAppGUI
                 var userWantsToEditTitle = PromptUserForEdit("title");
                 if (userWantsToEditTitle)
                 {
-
                     Console.Write("Title: ");
                     video.Title = Console.ReadLine();
                 }
@@ -77,9 +76,7 @@ namespace VideoAppGUI
                 // Prompt for Genre
                 var userWantsToEditGenre = PromptUserForEdit("genre");
                 if (userWantsToEditGenre)
-                {
                     video.Genre = GetGenreFromUser();
-                }
 
                 var updatedVideo = BLLFacade.VideoService.Update(video);
                 Console.WriteLine("\nVideo updated!");
@@ -93,7 +90,7 @@ namespace VideoAppGUI
 
         private static bool PromptUserForEdit(string choiceToEdit)
         {
-            bool validUserInput = false;
+            var validUserInput = false;
             bool userResponse;
             do
             {
@@ -101,9 +98,7 @@ namespace VideoAppGUI
                 var userResponseAsString = Console.ReadLine().Normalize().ToLower();
 
                 if (userResponseAsString.Equals(Yes) || userResponseAsString.Equals("n"))
-                {
                     validUserInput = true;
-                }
                 userResponse = userResponseAsString.Equals(Yes);
             } while (!validUserInput);
             return userResponse;
@@ -113,7 +108,7 @@ namespace VideoAppGUI
         ///     Prompt user for id to find Video
         /// </summary>
         /// <returns>Video with parsed id</returns>
-        private static Video FindVideoById()
+        private static VideoBO FindVideoById()
         {
             Console.Write("Insert Video Id: ");
             int id;
@@ -145,7 +140,7 @@ namespace VideoAppGUI
             var title = Console.ReadLine();
 
             var genre = GetGenreFromUser();
-            var createdVideo = BLLFacade.VideoService.Create(new Video
+            var createdVideo = BLLFacade.VideoService.Create(new VideoBO
             {
                 Title = title,
                 Genre = genre
@@ -160,9 +155,7 @@ namespace VideoAppGUI
             Genre chosenGenre;
             var genres = Enum.GetNames(typeof(Genre));
             foreach (var genre in genres)
-            {
                 Console.WriteLine($"Genre: {genre}");
-            }
             bool genreAccepted;
             do
             {
@@ -188,7 +181,7 @@ namespace VideoAppGUI
                 DisplayVideo(video);
         }
 
-        private static void DisplayVideo(Video videoToDisplay)
+        private static void DisplayVideo(VideoBO videoToDisplay)
         {
             Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title} Genre: {videoToDisplay.Genre}");
         }

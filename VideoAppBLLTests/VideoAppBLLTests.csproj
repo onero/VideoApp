@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\VideoAppBLL\VideoAppBLL.csproj" />
     <ProjectReference Include="..\VideoAppDAL\VideoAppDAL.csproj" />
-    <ProjectReference Include="..\VidepAppEntity\VidepAppEntity.csproj" />
   </ItemGroup>
 
 </Project>
