@@ -62,7 +62,13 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var updatedVideo = unitOfWork.VideoRepository.Update(Convert(entityToUpdate));
+                var videoFromRepo = unitOfWork.VideoRepository.GetById(entityToUpdate.Id);
+
+                if (videoFromRepo == null) return null;
+
+                videoFromRepo.Title = entityToUpdate.Title;
+                videoFromRepo.Genre = entityToUpdate.Genre;
+                var updatedVideo = unitOfWork.VideoRepository.Update(videoFromRepo);
                 unitOfWork.Complete();
                 return Convert(updatedVideo);
             }
