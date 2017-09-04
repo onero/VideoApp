@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Interfaces;
 using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
 
@@ -31,7 +32,7 @@ namespace VideoAppBLL.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<VideoBO> GetAll()
+        public IList<VideoBO> GetAll()
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {

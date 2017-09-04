@@ -16,5 +16,6 @@ namespace VideoAppDAL.Context
         }
 
         public DbSet<Video> Videos { set; get; }
+        public DbSet<Profile> Profiles { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VideoAppBLL
+namespace VideoAppBLL.Interfaces
 {
     public interface IService<TEntity> where TEntity : class
     {
@@ -8,7 +8,7 @@ namespace VideoAppBLL
 
         IList<TEntity> CreateAll(IList<TEntity> customers);
 
-        IEnumerable<TEntity> GetAll();
+        IList<TEntity> GetAll();
 
         TEntity GetById(int id);
 

@@ -1,6 +1,7 @@
 using System;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Interfaces;
 using VideoAppDAL.Entities;
 using Xunit;
 using Xunit.Sdk;
@@ -9,14 +10,14 @@ namespace VideoAppBLLTests
 {
     public class VideoServiceShould
     {
+        private readonly IService<VideoBO> _videoService;
+
         public VideoServiceShould()
         {
             var bllFacade = new BLLFacade();
             _videoService = bllFacade.VideoService;
             _videoService.ClearAll();
         }
-
-        private readonly IService<VideoBO> _videoService;
 
         private static readonly VideoBO MockVideo = new VideoBO
         {
@@ -37,16 +38,15 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _videoService.Create(MockVideo);
             var idOfCreatedVideo = createdVideo.Id;
-            _videoService.Delete(idOfCreatedVideo);
-            var videos = _videoService.GetAll();
-            Assert.DoesNotContain(createdVideo, videos);
+            var videoDeleted = _videoService.Delete(idOfCreatedVideo);
+            Assert.True(videoDeleted);
         }
 
         [Fact]
         public void FailGetOneVideoByWrongId()
         {
             _videoService.Create(MockVideo);
-            var nonExistingId = 0;
+            const int nonExistingId = 0;
             var videoFromSearch = Record.Exception( ()=> _videoService.GetById(nonExistingId));
             Assert.IsType(typeof(NullReferenceException), videoFromSearch);
         }

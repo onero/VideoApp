@@ -9,9 +9,9 @@ namespace VideoAppDAL.Repository
 {
     internal class VideoRepository : IRepository<Video>
     {
-        private readonly InMemoryContext _context;
+        private readonly IContext _context;
 
-        public VideoRepository(InMemoryContext context)
+        public VideoRepository(IContext context)
         {
             _context = context;
         }
@@ -37,7 +37,6 @@ namespace VideoAppDAL.Repository
         public IEnumerable<Video> GetAll()
         {
             return new List<Video>(_context.Videos);
-            ;
         }
 
         public Video GetById(int id)
