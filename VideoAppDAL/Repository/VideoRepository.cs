@@ -43,7 +43,6 @@ namespace VideoAppDAL.Repository
         public Video GetById(int id)
         {
             var video = _context.Videos.FirstOrDefault(v => v.Id == id);
-            if (video == null) throw new ArgumentException("Id not found");
             return video;
         }
 

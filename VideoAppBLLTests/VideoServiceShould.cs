@@ -48,7 +48,7 @@ namespace VideoAppBLLTests
             _videoService.Create(MockVideo);
             var nonExistingId = 0;
             var videoFromSearch = Record.Exception( ()=> _videoService.GetById(nonExistingId));
-            Assert.IsType(typeof(ArgumentException), videoFromSearch);
+            Assert.IsType(typeof(NullReferenceException), videoFromSearch);
         }
 
         [Fact]
