@@ -32,11 +32,10 @@ namespace VideoRestAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] VideoBO video)
         {
-            if (video == null)
-            {
-                return BadRequest();
-            }
+            if (video == null) return BadRequest();
+
             var createdVideo = _bllFacade.VideoService.Create(video);
+
             return Created("", createdVideo);
         }
 
@@ -44,16 +43,12 @@ namespace VideoRestAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] VideoBO video)
         {
-            if (id != video.Id)
-            {
-                return BadRequest();
-            }
+            if (id != video.Id) return BadRequest();
+
             var result = _bllFacade.VideoService.Update(video);
 
-            if(result == null)
-            {
-                return NotFound();
-            }
+            if(result == null) return NotFound();
+
             return Ok();
         }
 
