@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
+using static VideoAppBLL.Converters.VideoConverter;
 
 namespace VideoAppBLL.Service
 {
@@ -82,36 +83,6 @@ namespace VideoAppBLL.Service
                 unitOfWork.VideoRepository.ClearAll();
                 unitOfWork.Complete();
             }
-        }
-
-        /// <summary>
-        /// Convert Video to VideoBO
-        /// </summary>
-        /// <param name="video"></param>
-        /// <returns>VideoBO</returns>
-        private VideoBO Convert(Video video)
-        {
-            return new VideoBO()
-            {
-                Id = video.Id,
-                Title = video.Title,
-                Genre = video.Genre
-            };
-        }
-
-        /// <summary>
-        /// Convert VideoBO to VIDEO
-        /// </summary>
-        /// <param name="video"></param>
-        /// <returns>Video</returns>
-        private Video Convert(VideoBO video)
-        {
-            return new Video()
-            {
-                Id = video.Id,
-                Title = video.Title,
-                Genre = video.Genre
-            };
         }
     }
 }

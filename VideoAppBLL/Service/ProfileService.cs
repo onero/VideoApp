@@ -2,8 +2,8 @@
 using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
+using static VideoAppBLL.Converters.ProfileConverter;
 
 namespace VideoAppBLL.Service
 {
@@ -25,27 +25,6 @@ namespace VideoAppBLL.Service
             }
         }
 
-        private ProfileBO Convert(Profile entityToCreate)
-        {
-            return new ProfileBO()
-            {
-                Id = entityToCreate.Id,
-                FirstName = entityToCreate.FirstName,
-                LastName = entityToCreate.LastName,
-                Address = entityToCreate.Address
-            };
-        }
-
-        private Profile Convert(ProfileBO entityToCreate)
-        {
-            return new Profile()
-            {
-                Id = entityToCreate.Id,
-                FirstName = entityToCreate.FirstName,
-                LastName = entityToCreate.LastName,
-                Address = entityToCreate.Address
-            };
-        }
 
         public IList<ProfileBO> CreateAll(IList<ProfileBO> customers)
         {
