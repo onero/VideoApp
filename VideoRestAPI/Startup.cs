@@ -36,20 +36,32 @@ namespace VideoRestAPI
             {
                 app.UseDeveloperExceptionPage();
                 var bllFacade = new BLLFacade();
+
+                #region SeedDBData
+                // Videos
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Id = 1,
                         Title = "Die Hard",
                         Genre = Genre.Action
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Id = 2,
                         Title = "Titanic",
                         Genre = Genre.Romance
                     });
+
+                // Profiles
+                bllFacade.ProfileService.Create(
+                    new ProfileBO()
+                    {
+                        FirstName = "Adamino",
+                        LastName = "Hansen",
+                        Address = "Home"
+                    });
+
+                #endregion
             }
 
             app.UseMvc();
