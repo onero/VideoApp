@@ -24,7 +24,7 @@ namespace VideoRestAPI.Controllers
             var video = _bllFacade.VideoService.GetById(id);
 
             return video == null ? 
-                NotFound($"Id: {id} - does not exist") : 
+                NotFound(ErrorMessages.IdWasNotFoundMessage(id)) : 
                 new ObjectResult(video);
         }
 
@@ -32,7 +32,7 @@ namespace VideoRestAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] VideoBO video)
         {
-            if (video == null) return BadRequest("JSON object not valid");
+            if (video == null) return BadRequest(ErrorMessages.InvalidJSON);
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -43,12 +43,19 @@ namespace VideoRestAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] VideoBO video)
         {
+            // Validate video is valid JSON
+            if (video == null) return BadRequest(ErrorMessages.InvalidJSON);
+
+            // Validate that URL ID matches entity ID
             if (id != video.Id)
-                return BadRequest($"Id: {id} from url - does not match the entity id");
+                return BadRequest(ErrorMessages.IdDoesNotMatchMessage(id));
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result = _bllFacade.VideoService.Update(video);
 
-            if(result == null) return NotFound($"Id: {id} - doesn't exist");
+            if(result == null)
+                return NotFound(ErrorMessages.IdWasNotFoundMessage(video.Id));
 
             return Ok("Updated!");
         }
@@ -58,7 +65,7 @@ namespace VideoRestAPI.Controllers
         public IActionResult Delete(int id)
         {
             var deleted = _bllFacade.VideoService.Delete(id);
-            if (!deleted) return NotFound($"Id: {id} - doesn't exist");
+            if (!deleted) return NotFound(ErrorMessages.IdWasNotFoundMessage(id));
 
             return Ok("Deleted");
         }

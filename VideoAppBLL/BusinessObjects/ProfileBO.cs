@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoAppBLL.BusinessObjects
 {
@@ -6,10 +7,13 @@ namespace VideoAppBLL.BusinessObjects
     {
         public int Id { get; set; }
 
+        [Required]
+        [MinLength(2)]
         public string FirstName { get; set; }
-
+        [Required]
+        [MinLength(2)]
         public string LastName { get; set; }
-
+        [Required]
         public string Address { get; set; }
 
         public int CompareTo(ProfileBO other)
