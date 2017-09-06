@@ -4,7 +4,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL.Context
 {
-    internal class InMemoryContext : DbContext, IContext
+    internal class InMemoryContext : DbContext
     {
         //In memory setup
         private static readonly DbContextOptions<InMemoryContext> Options =
@@ -16,5 +16,6 @@ namespace VideoAppDAL.Context
         }
 
         public DbSet<Video> Videos { set; get; }
+        public DbSet<Profile> Profiles { get; set; }
     }
 }

@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
-using VideoAppDAL.Entities;
 
 namespace VideoRestAPI
 {
@@ -36,20 +35,32 @@ namespace VideoRestAPI
             {
                 app.UseDeveloperExceptionPage();
                 var bllFacade = new BLLFacade();
+
+                #region SeedDBData
+                // Videos
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Id = 1,
                         Title = "Die Hard",
-                        Genre = Genre.Action
+                        Genre = GenreBO.Action
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Id = 2,
                         Title = "Titanic",
-                        Genre = Genre.Romance
+                        Genre = GenreBO.Romance
                     });
+
+                // Profiles
+                bllFacade.ProfileService.Create(
+                    new ProfileBO()
+                    {
+                        FirstName = "Adamino",
+                        LastName = "Hansen",
+                        Address = "Home"
+                    });
+
+                #endregion
             }
 
             app.UseMvc();

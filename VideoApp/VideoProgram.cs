@@ -2,7 +2,6 @@
 using CustomerAppUI.Model;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
-using VideoAppDAL.Entities;
 
 namespace VideoAppGUI
 {
@@ -149,11 +148,11 @@ namespace VideoAppGUI
             DisplayVideo(createdVideo);
         }
 
-        private static Genre GetGenreFromUser()
+        private static GenreBO GetGenreFromUser()
         {
             Console.WriteLine();
-            Genre chosenGenre;
-            var genres = Enum.GetNames(typeof(Genre));
+            GenreBO chosenGenre;
+            var genres = Enum.GetNames(typeof(GenreBO));
             foreach (var genre in genres)
                 Console.WriteLine($"Genre: {genre}");
             bool genreAccepted;
