@@ -16,7 +16,7 @@ namespace VideoAppBLL.Converters
             {
                 Id = video.Id,
                 Title = video.Title,
-                Genre = video.Genre
+                Genre = GenreConverter.Convert(video.Genre)
             };
         }
 
@@ -31,7 +31,7 @@ namespace VideoAppBLL.Converters
             {
                 Id = video.Id,
                 Title = video.Title,
-                Genre = video.Genre
+                Genre = GenreConverter.Convert(video.Genre)
             };
         }
     }

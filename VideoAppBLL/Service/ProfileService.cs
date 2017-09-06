@@ -52,6 +52,8 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
+                var profileFromDB = unitOfWork.ProfileRepository.GetById(id);
+                if (profileFromDB == null) return false;
                 var deleted = unitOfWork.ProfileRepository.Delete(id);
                 unitOfWork.Complete();
                 return deleted;

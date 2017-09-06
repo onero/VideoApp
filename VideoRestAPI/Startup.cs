@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
-using VideoAppDAL.Entities;
 
 namespace VideoRestAPI
 {
@@ -43,13 +42,13 @@ namespace VideoRestAPI
                     new VideoBO()
                     {
                         Title = "Die Hard",
-                        Genre = Genre.Action
+                        Genre = GenreBO.Action
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
                         Title = "Titanic",
-                        Genre = Genre.Romance
+                        Genre = GenreBO.Romance
                     });
 
                 // Profiles

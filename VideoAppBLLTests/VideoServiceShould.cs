@@ -22,7 +22,7 @@ namespace VideoAppBLLTests
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Genre = Genre.Action
+            Genre = GenreBO.Action
         };
 
         [Fact]
@@ -85,7 +85,7 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _videoService.Create(MockVideo);
             createdVideo.Title = "Awesome";
-            createdVideo.Genre = Genre.Romance;
+            createdVideo.Genre = GenreBO.Romance;
             var updatedVideo = _videoService.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);

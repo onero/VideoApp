@@ -46,7 +46,8 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                return Convert(unitOfWork.VideoRepository.GetById(id));
+                var videoFromDB = unitOfWork.VideoRepository.GetById(id);
+                return videoFromDB == null ? null : Convert(videoFromDB);
             }
         }
 
@@ -54,6 +55,8 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
+                var videoFromDB = unitOfWork.VideoRepository.GetById(id);
+                if (videoFromDB == null) return false;
                 var videoDeleted = unitOfWork.VideoRepository.Delete(id);
                 unitOfWork.Complete();
                 return videoDeleted;
@@ -69,7 +72,7 @@ namespace VideoAppBLL.Service
                 if (videoFromRepo == null) return null;
 
                 videoFromRepo.Title = entityToUpdate.Title;
-                videoFromRepo.Genre = entityToUpdate.Genre;
+                videoFromRepo.Genre = GenreConverter.Convert(entityToUpdate.Genre);
                 var updatedVideo = unitOfWork.VideoRepository.Update(videoFromRepo);
                 unitOfWork.Complete();
                 return Convert(updatedVideo);
