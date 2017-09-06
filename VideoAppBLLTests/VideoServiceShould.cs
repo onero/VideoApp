@@ -1,6 +1,7 @@
 using System;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Interfaces;
 using VideoAppDAL.Entities;
 using Xunit;
 using Xunit.Sdk;
@@ -9,6 +10,8 @@ namespace VideoAppBLLTests
 {
     public class VideoServiceShould
     {
+        private readonly IService<VideoBO> _videoService;
+
         public VideoServiceShould()
         {
             var bllFacade = new BLLFacade();
@@ -16,12 +19,10 @@ namespace VideoAppBLLTests
             _videoService.ClearAll();
         }
 
-        private readonly IService<VideoBO> _videoService;
-
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Genre = Genre.Action
+            Genre = GenreBO.Action
         };
 
         [Fact]
@@ -37,18 +38,17 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _videoService.Create(MockVideo);
             var idOfCreatedVideo = createdVideo.Id;
-            _videoService.Delete(idOfCreatedVideo);
-            var videos = _videoService.GetAll();
-            Assert.DoesNotContain(createdVideo, videos);
+            var videoDeleted = _videoService.Delete(idOfCreatedVideo);
+            Assert.True(videoDeleted);
         }
 
         [Fact]
         public void FailGetOneVideoByWrongId()
         {
             _videoService.Create(MockVideo);
-            var nonExistingId = 0;
-            var videoFromSearch = Record.Exception( ()=> _videoService.GetById(nonExistingId));
-            Assert.IsType(typeof(NullReferenceException), videoFromSearch);
+            const int nonExistingId = 0;
+            var videoFromSearch = _videoService.GetById(nonExistingId);
+            Assert.Null(videoFromSearch);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _videoService.Create(MockVideo);
             createdVideo.Title = "Awesome";
-            createdVideo.Genre = Genre.Romance;
+            createdVideo.Genre = GenreBO.Romance;
             var updatedVideo = _videoService.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);

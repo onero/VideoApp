@@ -1,5 +1,5 @@
 ﻿using System;
-using VideoAppDAL.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoAppBLL.BusinessObjects
 {
@@ -7,9 +7,10 @@ namespace VideoAppBLL.BusinessObjects
     {
         public int Id { get; set; }
 
+        [Required]
         public string Title { get; set; }
-
-        public Genre Genre { get; set; } = Genre.Action;
+        
+        public GenreBO Genre { get; set; } = GenreBO.Action;
 
         public int CompareTo(VideoBO other)
         {

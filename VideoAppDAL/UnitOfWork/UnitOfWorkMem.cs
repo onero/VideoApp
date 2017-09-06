@@ -9,13 +9,15 @@ namespace VideoAppDAL.UnitOfWork
     {
         private readonly InMemoryContext _context;
 
+        public IRepository<Video> VideoRepository { get; }
+        public IRepository<Profile> ProfileRepository { get; }
+
         public UnitOfWorkMem(InMemoryContext context)
         {
             _context = context;
             VideoRepository = new VideoRepository(_context);
+            ProfileRepository = new ProfileRepository(_context);
         }
-
-        public IRepository<Video> VideoRepository { get; }
 
 
         public void Complete()
