@@ -10,13 +10,13 @@ namespace VideoAppBLLTests
 {
     public class VideoServiceShould
     {
-        private readonly IService<VideoBO> _videoService;
+        private readonly IVideoService _service;
 
         public VideoServiceShould()
         {
             var bllFacade = new BLLFacade();
-            _videoService = bllFacade.VideoService;
-            _videoService.ClearAll();
+            _service = bllFacade.VideoService;
+            _service.ClearAll();
         }
 
         private static readonly VideoBO MockVideo = new VideoBO
@@ -28,7 +28,7 @@ namespace VideoAppBLLTests
         [Fact]
         public void CreateOneVideo()
         {
-            var created = _videoService.Create(MockVideo);
+            var created = _service.Create(MockVideo);
 
             Assert.NotNull(created);
         }
@@ -36,26 +36,26 @@ namespace VideoAppBLLTests
         [Fact]
         public void DeleteVideoById()
         {
-            var createdVideo = _videoService.Create(MockVideo);
+            var createdVideo = _service.Create(MockVideo);
             var idOfCreatedVideo = createdVideo.Id;
-            var videoDeleted = _videoService.Delete(idOfCreatedVideo);
+            var videoDeleted = _service.Delete(idOfCreatedVideo);
             Assert.True(videoDeleted);
         }
 
         [Fact]
         public void FailGetOneVideoByWrongId()
         {
-            _videoService.Create(MockVideo);
+            _service.Create(MockVideo);
             const int nonExistingId = 0;
-            var videoFromSearch = _videoService.GetById(nonExistingId);
+            var videoFromSearch = _service.GetById(nonExistingId);
             Assert.Null(videoFromSearch);
         }
 
         [Fact]
         public void GetAllVideos()
         {
-            _videoService.Create(MockVideo);
-            var videos = _videoService.GetAll();
+            _service.Create(MockVideo);
+            var videos = _service.GetAll();
 
             Assert.NotEmpty(videos);
         }
@@ -63,9 +63,9 @@ namespace VideoAppBLLTests
         [Fact]
         public void GetOneVideoById()
         {
-            var createdVideo = _videoService.Create(MockVideo);
+            var createdVideo = _service.Create(MockVideo);
 
-            var videoFromSearch = _videoService.GetById(createdVideo.Id);
+            var videoFromSearch = _service.GetById(createdVideo.Id);
 
             Assert.Equal(createdVideo, videoFromSearch);
         }
@@ -73,9 +73,9 @@ namespace VideoAppBLLTests
         [Fact]
         public void ReturnEmptyListWhenCleared()
         {
-            _videoService.Create(MockVideo);
-            _videoService.ClearAll();
-            var videos = _videoService.GetAll();
+            _service.Create(MockVideo);
+            _service.ClearAll();
+            var videos = _service.GetAll();
 
             Assert.Empty(videos);
         }
@@ -83,10 +83,10 @@ namespace VideoAppBLLTests
         [Fact]
         public void ShouldUpdateVideo()
         {
-            var createdVideo = _videoService.Create(MockVideo);
+            var createdVideo = _service.Create(MockVideo);
             createdVideo.Title = "Awesome";
             createdVideo.Genre = GenreBO.Romance;
-            var updatedVideo = _videoService.Update(createdVideo);
+            var updatedVideo = _service.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);
         }

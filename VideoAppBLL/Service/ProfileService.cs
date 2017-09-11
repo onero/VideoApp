@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL.Interfaces;
-using static VideoAppBLL.Converters.ProfileConverter;
 
 namespace VideoAppBLL.Service
 {
-    public class ProfileService : IService<ProfileBO>
+    public class ProfileService : IProfileService
     {
         private readonly IDALFacade _facade;
+        private readonly ProfileConverter _converter;
         public ProfileService(IDALFacade dalFacade)
         {
             _facade = dalFacade;
+            _converter = new ProfileConverter();
         }
 
-        public ProfileBO Create(ProfileBO entityToCreate)
+        public ProfileBO Create(ProfileBO profile)
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var createdProfile = unitOfWork.ProfileRepository.Create(Convert(entityToCreate));
+                var createdProfile = unitOfWork.ProfileRepository.Create(_converter.Convert(profile));
                 unitOfWork.Complete();
-                return Convert(createdProfile);
+                return _converter.Convert(createdProfile);
             }
         }
 
@@ -35,7 +37,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                return unitOfWork.ProfileRepository.GetAll().Select(Convert).ToList();
+                return unitOfWork.ProfileRepository.GetAll().Select(_converter.Convert).ToList();
             }
         }
 
@@ -44,7 +46,7 @@ namespace VideoAppBLL.Service
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var profile = unitOfWork.ProfileRepository.GetById(id);
-                return profile == null ? null : Convert(profile);
+                return profile == null ? null : _converter.Convert(profile);
             }
         }
 
@@ -72,7 +74,7 @@ namespace VideoAppBLL.Service
                 profileFromDB.Address = entityToUpdate.Address;
                 unitOfWork.ProfileRepository.Update(profileFromDB);
                 unitOfWork.Complete();
-                return Convert(profileFromDB);
+                return _converter.Convert(profileFromDB);
             }
         }
 

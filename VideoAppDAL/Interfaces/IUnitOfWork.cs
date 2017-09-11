@@ -9,6 +9,8 @@ namespace VideoAppDAL.Interfaces
 
         IRepository<Profile> ProfileRepository { get; }
 
+        IRepository<Rental> RentalRepository { get; }
+
         void Complete();
     }
 }
