@@ -3,15 +3,16 @@ using VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Converters
 {
-    internal static class VideoConverter
+    internal class VideoConverter : IConverter<Video, VideoBO>
     {
         /// <summary>
         /// Convert Video to VideoBO
         /// </summary>
         /// <param name="video"></param>
         /// <returns>VideoBO</returns>
-        public static VideoBO Convert(Video video)
+        public VideoBO Convert(Video video)
         {
+            if (video == null) return null;
             return new VideoBO()
             {
                 Id = video.Id,
@@ -25,8 +26,10 @@ namespace VideoAppBLL.Converters
         /// </summary>
         /// <param name="video"></param>
         /// <returns>Video</returns>
-        public static Video Convert(VideoBO video)
+        public Video Convert(VideoBO video)
         {
+            if (video == null) return null;
+
             return new Video()
             {
                 Id = video.Id,

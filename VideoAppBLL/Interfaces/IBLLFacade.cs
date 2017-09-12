@@ -4,9 +4,9 @@ namespace VideoAppBLL.Interfaces
 {
     public interface IBLLFacade
     {
-        IService<VideoBO> VideoService { get; }
+        IVideoService VideoService { get; }
 
-        IService<ProfileBO> ProfileService { get; }
+        IProfileService ProfileService { get; }
 
     }
 }

@@ -9,22 +9,24 @@ using static VideoAppBLL.Converters.VideoConverter;
 
 namespace VideoAppBLL.Service
 {
-    internal class VideoService : IService<VideoBO>
+    internal class VideoService : IVideoService
     {
         private readonly IDALFacade _facade;
+        private readonly VideoConverter _converter;
 
         public VideoService(IDALFacade facade)
         {
             _facade = facade;
+            _converter = new VideoConverter();
         }
 
         public VideoBO Create(VideoBO video)
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var createdVideo = unitOfWork.VideoRepository.Create(Convert(video));
+                var createdVideo = unitOfWork.VideoRepository.Create(_converter.Convert(video));
                 unitOfWork.Complete();
-                return Convert(createdVideo);
+                return _converter.Convert(createdVideo);
             }
         }
 
@@ -37,8 +39,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var videos = unitOfWork.VideoRepository.GetAll().Select(Convert).ToList();
-                return videos;
+                return unitOfWork.VideoRepository.GetAll().Select(_converter.Convert).ToList();
             }
         }
 
@@ -47,7 +48,7 @@ namespace VideoAppBLL.Service
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
-                return videoFromDB == null ? null : Convert(videoFromDB);
+                return videoFromDB == null ? null : _converter.Convert(videoFromDB);
             }
         }
 
@@ -75,7 +76,7 @@ namespace VideoAppBLL.Service
                 videoFromRepo.Genre = GenreConverter.Convert(entityToUpdate.Genre);
                 var updatedVideo = unitOfWork.VideoRepository.Update(videoFromRepo);
                 unitOfWork.Complete();
-                return Convert(updatedVideo);
+                return _converter.Convert(updatedVideo);
             }
         }
 

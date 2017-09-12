@@ -19,7 +19,7 @@ namespace VideoRestAPI.Controllers
         }
 
         // GET: api/Profiles/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetProfile")]
         public IActionResult Get(int id)
         {
             var video = _bllFacade.ProfileService.GetById(id);

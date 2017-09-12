@@ -3,15 +3,16 @@ using VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Converters
 {
-    internal static class ProfileConverter
+    internal class ProfileConverter : IConverter<Profile, ProfileBO>
     {
         /// <summary>
         /// Convert Profile
         /// </summary>
         /// <param name="profile"></param>
         /// <returns>Profile BO</returns>
-        public static ProfileBO Convert(Profile profile)
+        public ProfileBO Convert(Profile profile)
         {
+            if (profile == null) return null;
             return new ProfileBO()
             {
                 Id = profile.Id,
@@ -24,16 +25,18 @@ namespace VideoAppBLL.Converters
         /// <summary>
         /// Convert ProfileBO
         /// </summary>
-        /// <param name="profileBO"></param>
+        /// <param name="profile"></param>
         /// <returns>Profile</returns>
-        public static Profile Convert(ProfileBO profileBO)
+        public Profile Convert(ProfileBO profile)
         {
+            if (profile == null) return null;
+
             return new Profile()
             {
-                Id = profileBO.Id,
-                FirstName = profileBO.FirstName,
-                LastName = profileBO.LastName,
-                Address = profileBO.Address
+                Id = profile.Id,
+                FirstName = profile.FirstName,
+                LastName = profile.LastName,
+                Address = profile.Address
             };
         }
     }
