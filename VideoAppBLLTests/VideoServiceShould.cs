@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
@@ -22,7 +23,8 @@ namespace VideoAppBLLTests
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Genre = GenreBO.Action
+            Genres = new List<GenreBO>(),
+            Rentals = new List<RentalBO>()
         };
 
         [Fact]
@@ -85,7 +87,6 @@ namespace VideoAppBLLTests
         {
             var createdVideo = _service.Create(MockVideo);
             createdVideo.Title = "Awesome";
-            createdVideo.Genre = GenreBO.Romance;
             var updatedVideo = _service.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);

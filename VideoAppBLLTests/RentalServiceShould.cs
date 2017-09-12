@@ -14,8 +14,7 @@ namespace VideoAppBLLTests
         {
             Video = new VideoBO()
             {
-                Title = "Die Hard Test",
-                Genre = GenreBO.Action
+                Title = "Die Hard Test"
             }
         };
 

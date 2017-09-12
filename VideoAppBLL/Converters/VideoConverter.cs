@@ -1,4 +1,5 @@
-﻿using VideoAppBLL.BusinessObjects;
+﻿using System.Linq;
+using VideoAppBLL.BusinessObjects;
 using VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Converters
@@ -16,8 +17,7 @@ namespace VideoAppBLL.Converters
             return new VideoBO()
             {
                 Id = video.Id,
-                Title = video.Title,
-                Genre = GenreConverter.Convert(video.Genre)
+                Title = video.Title
             };
         }
 
@@ -33,8 +33,7 @@ namespace VideoAppBLL.Converters
             return new Video()
             {
                 Id = video.Id,
-                Title = video.Title,
-                Genre = GenreConverter.Convert(video.Genre)
+                Title = video.Title
             };
         }
     }

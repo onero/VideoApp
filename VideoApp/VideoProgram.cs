@@ -74,8 +74,8 @@ namespace VideoAppGUI
 
                 // Prompt for Genre
                 var userWantsToEditGenre = PromptUserForEdit("genre");
-                if (userWantsToEditGenre)
-                    video.Genre = GetGenreFromUser();
+                //if (userWantsToEditGenre)
+                //    video.Genre = GetGenreFromUser();
 
                 var updatedVideo = BLLFacade.VideoService.Update(video);
                 Console.WriteLine("\nVideo updated!");
@@ -138,37 +138,36 @@ namespace VideoAppGUI
             Console.Write("Title: ");
             var title = Console.ReadLine();
 
-            var genre = GetGenreFromUser();
+            //var genre = GetGenreFromUser();
             var createdVideo = BLLFacade.VideoService.Create(new VideoBO
             {
-                Title = title,
-                Genre = genre
+                Title = title
             });
             Console.WriteLine("\nVideo created:");
             DisplayVideo(createdVideo);
         }
 
-        private static GenreBO GetGenreFromUser()
-        {
-            Console.WriteLine();
-            GenreBO chosenGenre;
-            var genres = Enum.GetNames(typeof(GenreBO));
-            foreach (var genre in genres)
-                Console.WriteLine($"Genre: {genre}");
-            bool genreAccepted;
-            do
-            {
-                Console.Write($"Please write genre name: ");
-                var genre = Console.ReadLine();
-                genreAccepted = Enum.TryParse(genre, true, out chosenGenre);
-                if (!genreAccepted)
-                {
-                    Console.WriteLine($"{genre} is not on our list of genres...");
-                    Console.WriteLine("We currently don't support adding genres, but this may come in the future");
-                }
-            } while (!genreAccepted);
-            return chosenGenre;
-        }
+        //private static GenreBO GetGenreFromUser()
+        //{
+        //    Console.WriteLine();
+        //    GenreBO chosenGenre;
+        //    var genres = Enum.GetNames(typeof(GenreBO));
+        //    foreach (var genre in genres)
+        //        Console.WriteLine($"Genre: {genre}");
+        //    bool genreAccepted;
+        //    do
+        //    {
+        //        Console.Write($"Please write genre name: ");
+        //        var genre = Console.ReadLine();
+        //        genreAccepted = Enum.TryParse(genre, true, out chosenGenre);
+        //        if (!genreAccepted)
+        //        {
+        //            Console.WriteLine($"{genre} is not on our list of genres...");
+        //            Console.WriteLine("We currently don't support adding genres, but this may come in the future");
+        //        }
+        //    } while (!genreAccepted);
+        //    return chosenGenre;
+        //}
 
         /// <summary>
         ///     List all Videos
@@ -182,7 +181,7 @@ namespace VideoAppGUI
 
         private static void DisplayVideo(VideoBO videoToDisplay)
         {
-            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title} Genre: {videoToDisplay.Genre}");
+            Console.WriteLine($"Id: {videoToDisplay.Id} Title: {videoToDisplay.Title}");
         }
 
 

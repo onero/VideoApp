@@ -7,12 +7,20 @@ namespace VideoAppBLL.Converters
     {
         public static Genre Convert(GenreBO genre)
         {
-            return (Genre) genre;
+            return new Genre()
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            };
         }
 
         public static GenreBO Convert(Genre genre)
         {
-            return (GenreBO)genre;
+            return new GenreBO()
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            };
         }
     }
 }

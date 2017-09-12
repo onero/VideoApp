@@ -1,8 +1,8 @@
 ﻿namespace VideoAppDAL.Entities
 {
-    public enum Genre
+    public class Genre
     {
-        Action,
-        Romance
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

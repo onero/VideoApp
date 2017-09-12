@@ -9,7 +9,7 @@ namespace VideoAppDAL.Entities
 
         public string Title { get; set; }
 
-        public Genre Genre { get; set; } = Genre.Action;
+        public List<Genre> Genres { get; set; }
 
         public List<Rental> Rentals { get; set; }
     }

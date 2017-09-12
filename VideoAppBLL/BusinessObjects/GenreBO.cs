@@ -1,8 +1,8 @@
 ﻿namespace VideoAppBLL.BusinessObjects
 {
-    public enum GenreBO
+    public class GenreBO
     {
-        Action,
-        Romance
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
