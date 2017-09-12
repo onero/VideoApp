@@ -39,8 +39,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var videos = unitOfWork.VideoRepository.GetAll().Select(_converter.Convert).ToList();
-                return videos;
+                return unitOfWork.VideoRepository.GetAll().Select(_converter.Convert).ToList();
             }
         }
 

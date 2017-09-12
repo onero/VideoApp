@@ -12,6 +12,7 @@ namespace VideoAppBLL.Converters
         /// <returns>Profile BO</returns>
         public ProfileBO Convert(Profile profile)
         {
+            if (profile == null) return null;
             return new ProfileBO()
             {
                 Id = profile.Id,
@@ -24,16 +25,18 @@ namespace VideoAppBLL.Converters
         /// <summary>
         /// Convert ProfileBO
         /// </summary>
-        /// <param name="profileBO"></param>
+        /// <param name="profile"></param>
         /// <returns>Profile</returns>
-        public Profile Convert(ProfileBO profileBO)
+        public Profile Convert(ProfileBO profile)
         {
+            if (profile == null) return null;
+
             return new Profile()
             {
-                Id = profileBO.Id,
-                FirstName = profileBO.FirstName,
-                LastName = profileBO.LastName,
-                Address = profileBO.Address
+                Id = profile.Id,
+                FirstName = profile.FirstName,
+                LastName = profile.LastName,
+                Address = profile.Address
             };
         }
     }

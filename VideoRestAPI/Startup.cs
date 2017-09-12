@@ -38,7 +38,7 @@ namespace VideoRestAPI
 
                 #region SeedDBData
                 // Videos
-                bllFacade.VideoService.Create(
+                var dieHard = bllFacade.VideoService.Create(
                     new VideoBO()
                     {
                         Title = "Die Hard",
@@ -49,6 +49,13 @@ namespace VideoRestAPI
                     {
                         Title = "Titanic",
                         Genre = GenreBO.Romance
+                    });
+
+                // Rentals
+                bllFacade.RentalService.Create(
+                    new RentalBO()
+                    {
+                        VideoId = dieHard.Id
                     });
 
                 // Profiles

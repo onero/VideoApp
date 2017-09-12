@@ -12,6 +12,7 @@ namespace VideoAppBLL.Converters
         /// <returns>VideoBO</returns>
         public VideoBO Convert(Video video)
         {
+            if (video == null) return null;
             return new VideoBO()
             {
                 Id = video.Id,
@@ -27,6 +28,8 @@ namespace VideoAppBLL.Converters
         /// <returns>Video</returns>
         public Video Convert(VideoBO video)
         {
+            if (video == null) return null;
+
             return new Video()
             {
                 Id = video.Id,

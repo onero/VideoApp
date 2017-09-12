@@ -2,13 +2,21 @@
 using VideoAppBLL.Interfaces;
 using VideoAppBLL.Service;
 using VideoAppDAL;
+using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL
 {
     public class BLLFacade : IBLLFacade
     {
-        public IVideoService VideoService => new VideoService(new DALFacadeMem());
-        public IProfileService ProfileService => new ProfileService(new DALFacadeMem());
-        public IRentalService RentalService => new RentalService(new DALFacadeMem());
+        private readonly IDALFacade _dalFacade;
+
+        public BLLFacade()
+        {
+            _dalFacade = new DALFacade();
+        }
+
+        public IVideoService VideoService => new VideoService(_dalFacade);
+        public IProfileService ProfileService => new ProfileService(_dalFacade);
+        public IRentalService RentalService => new RentalService(_dalFacade);
     }
 }

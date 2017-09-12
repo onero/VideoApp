@@ -41,17 +41,44 @@ namespace VideoAppBLL.Service
 
         public RentalBO GetById(int id)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                // Get rental
+                var rental = unitOfWork.RentalRepository.GetById(id);
+                if (rental == null) return null;
+                // Get video from rental
+                var video = unitOfWork.VideoRepository.GetById(rental.VideoId);
+                if (video == null) return _converter.Convert(rental);
+
+                rental.Video = video;
+                return _converter.Convert(rental);
+            }
         }
 
         public bool Delete(int id)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                var rental = unitOfWork.RentalRepository.GetById(id);
+                if (rental == null) return false;
+                var deleted = unitOfWork.RentalRepository.Delete(id);
+                unitOfWork.Complete();
+                return deleted;
+            }
         }
 
-        public RentalBO Update(RentalBO entityToUpdate)
+        public RentalBO Update(RentalBO rentalToUpdate)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                var rental = unitOfWork.RentalRepository.GetById(rentalToUpdate.Id);
+                if (rental == null) return null;
+
+                rental.From = rentalToUpdate.From;
+                rental.To = rentalToUpdate.To;
+                unitOfWork.RentalRepository.Update(rental);
+                return _converter.Convert(rental);
+            }
         }
 
         public void ClearAll()

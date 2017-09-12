@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VideoAppDAL.Entities
 {
@@ -9,5 +10,7 @@ namespace VideoAppDAL.Entities
         public string Title { get; set; }
 
         public Genre Genre { get; set; } = Genre.Action;
+
+        public List<Rental> Rentals { get; set; }
     }
 }
