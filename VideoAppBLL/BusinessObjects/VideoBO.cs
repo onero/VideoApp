@@ -11,8 +11,6 @@ namespace VideoAppBLL.BusinessObjects
         [Required]
         public string Title { get; set; }
 
-        public List<GenreBO> Genres { get; set; }
-
         public List<RentalBO> Rentals { get; set; }
 
         public int CompareTo(VideoBO other)

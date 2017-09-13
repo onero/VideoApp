@@ -23,7 +23,6 @@ namespace VideoAppBLLTests
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Genres = new List<GenreBO>(),
             Rentals = new List<RentalBO>()
         };
 
