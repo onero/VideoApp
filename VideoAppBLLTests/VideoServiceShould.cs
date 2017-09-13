@@ -39,9 +39,8 @@ namespace VideoAppBLLTests
             _service.Create(MockVideo);
             var videos = _service.GetAll();
 
-            Assert.Empty(videos);
+            Assert.NotEmpty(videos);
         }
-
 
         [Fact]
         public void GetOneByExistingId()
