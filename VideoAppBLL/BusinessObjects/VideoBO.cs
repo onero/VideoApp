@@ -25,11 +25,11 @@ namespace VideoAppBLL.BusinessObjects
             if (idComparison != 0) return idComparison;
             var titleComparison = string.Compare(Title, other.Title, StringComparison.Ordinal);
             if (titleComparison != 0) return titleComparison;
-            var pricePerDayComparison = PricePerDay.CompareTo(other.PricePerDay);
-            if (pricePerDayComparison != 0) return pricePerDayComparison;
             var genreIdComparison = GenreId.CompareTo(other.GenreId);
             if (genreIdComparison != 0) return genreIdComparison;
-            return Comparer<GenreBO>.Default.Compare(Genre, other.Genre);
+            var genreComparison = Comparer<GenreBO>.Default.Compare(Genre, other.Genre);
+            if (genreComparison != 0) return genreComparison;
+            return PricePerDay.CompareTo(other.PricePerDay);
         }
     }
 }
