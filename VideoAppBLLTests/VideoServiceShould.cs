@@ -6,8 +6,10 @@ using Xunit;
 
 namespace VideoAppBLLTests
 {
-    public class VideoServiceShould
+    public class VideoServiceShould : ITest
     {
+        private const int NonExistingId = 999;
+
         public VideoServiceShould()
         {
             var bllFacade = new BLLFacade();
@@ -24,29 +26,11 @@ namespace VideoAppBLLTests
         };
 
         [Fact]
-        public void CreateOneVideo()
+        public void CreateOne()
         {
             var created = _service.Create(MockVideo);
 
             Assert.NotNull(created);
-        }
-
-        [Fact]
-        public void DeleteByExistingId()
-        {
-            var createdVideo = _service.Create(MockVideo);
-            var idOfCreatedVideo = createdVideo.Id;
-            var videoDeleted = _service.Delete(idOfCreatedVideo);
-            Assert.True(videoDeleted);
-        }
-
-        [Fact]
-        public void NotGetOneByNonExistingId()
-        {
-            _service.Create(MockVideo);
-            const int nonExistingId = 0;
-            var videoFromSearch = _service.GetById(nonExistingId);
-            Assert.Null(videoFromSearch);
         }
 
         [Fact]
@@ -59,7 +43,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetOneById()
+        public void GetOneByExistingId()
         {
             var createdVideo = _service.Create(MockVideo);
 
@@ -69,13 +53,28 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void ReturnEmptyListWhenCleared()
+        public void NotGetOneByNonExistingId()
         {
             _service.Create(MockVideo);
-            _service.ClearAll();
-            var videos = _service.GetAll();
+            var videoFromSearch = _service.GetById(NonExistingId);
+            Assert.Null(videoFromSearch);
+        }
 
-            Assert.Empty(videos);
+        [Fact]
+        public void DeleteByExistingId()
+        {
+            var createdVideo = _service.Create(MockVideo);
+            var idOfCreatedVideo = createdVideo.Id;
+            var videoDeleted = _service.Delete(idOfCreatedVideo);
+            Assert.True(videoDeleted);
+        }
+
+        [Fact]
+        public void NotDeleteByNonExistingId()
+        {
+            var deleted = _service.Delete(NonExistingId);
+
+            Assert.False(deleted);
         }
 
         [Fact]
@@ -86,6 +85,24 @@ namespace VideoAppBLLTests
             var updatedVideo = _service.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);
+        }
+
+        [Fact]
+        public void NotUpdateByNonExistingId()
+        {
+            var result = _service.Update(MockVideo);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void ReturnEmptyListWhenCleared()
+        {
+            _service.Create(MockVideo);
+            _service.ClearAll();
+            var videos = _service.GetAll();
+
+            Assert.Empty(videos);
         }
     }
 }
