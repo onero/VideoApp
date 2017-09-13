@@ -22,7 +22,7 @@ namespace VideoRestAPI.Controllers
             return Service.GetAll();
         }
 
-        // GET api/videos/5
+        // GET api/TEntity/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -33,7 +33,7 @@ namespace VideoRestAPI.Controllers
                 new ObjectResult(video);
         }
 
-        // POST api/videos
+        // POST api/TEntity
         [HttpPost]
         public IActionResult Post([FromBody] TEntity entity)
         {
@@ -44,11 +44,11 @@ namespace VideoRestAPI.Controllers
             return Created("", Service.Create(entity));
         }
 
-        // PUT api/videos/5
+        // PUT api/TEntity/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] TEntity entity)
         {
-            // Validate video is valid JSON
+            // Validate TEntity is valid JSON
             if (entity == null) return BadRequest(ErrorMessages.InvalidJSON);
 
             // Validate that URL ID matches entity ID
@@ -65,7 +65,7 @@ namespace VideoRestAPI.Controllers
             return Ok("Updated!");
         }
 
-        // DELETE api/videos/5
+        // DELETE api/TEntity/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
