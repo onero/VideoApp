@@ -12,6 +12,7 @@ namespace VideoAppDAL.Interfaces
         IRepository<Rental> RentalRepository { get; }
         IRepository<Genre> GenreRepository { get; }
         IRepository<User> UserRepository { get; }
+        IRepository<Role> RoleRepository { get; }
 
         void Complete();
     }

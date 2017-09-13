@@ -88,6 +88,13 @@ namespace VideoRestAPI
                         Password = "Secret"
                     });
 
+                // Roles
+                bllFacade.RoleService.Create(
+                    new RoleBO()
+                    {
+                        Name = "Admin"
+                    });
+
                 #endregion
             }
 

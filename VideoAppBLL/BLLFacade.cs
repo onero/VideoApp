@@ -20,5 +20,6 @@ namespace VideoAppBLL
         public IRentalService RentalService => new RentalService(_dalFacade);
         public IGenreService GenreService => new GenreService(_dalFacade);
         public IUserService UserService => new UserService(_dalFacade);
+        public IRoleService RoleService => new RoleService(_dalFacade);
     }
 }
