@@ -14,5 +14,5 @@ branches:
 notifications:
   slack: cs2016a:MrE8tgSmsfcVCMVTa1JgT78G
   email: false
-  on_success: change
-  on_failure: change
+    on_success: change
+    on_failure: change
