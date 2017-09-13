@@ -9,6 +9,6 @@ namespace VideoAppDAL.Entities
 
         public string Title { get; set; }
 
-        public List<Rental> Rentals { get; set; }
+        public List<Rental> Rentals { get; set; } = new List<Rental>();
     }
 }
