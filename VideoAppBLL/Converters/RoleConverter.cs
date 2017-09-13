@@ -3,23 +3,23 @@ using VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Converters
 {
-    public class GenreConverter : IConverter<Genre, GenreBO>
+    public class RoleConverter : IConverter<Role, RoleBO>
     {
-        public Genre Convert(GenreBO entity)
+        public Role Convert(RoleBO entity)
         {
             if (entity == null) return null;
 
-            return new Genre()
+            return new Role()
             {
                 Id = entity.Id,
                 Name = entity.Name
             };
         }
 
-        public GenreBO Convert(Genre entity)
+        public RoleBO Convert(Role entity)
         {
             if (entity == null) return null;
-            return new GenreBO()
+            return new RoleBO()
             {
                 Id = entity.Id,
                 Name = entity.Name

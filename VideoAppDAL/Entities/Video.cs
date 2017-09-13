@@ -9,6 +9,11 @@ namespace VideoAppDAL.Entities
 
         public string Title { get; set; }
 
+        public int GenreId { get; set; } = 1;
+        public Genre Genre { get; set; }
+        public double PricePerDay { get; set; } = 10;
+
+
         public List<Rental> Rentals { get; set; } = new List<Rental>();
     }
 }

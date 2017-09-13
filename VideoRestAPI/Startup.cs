@@ -37,30 +37,33 @@ namespace VideoRestAPI
                 var bllFacade = new BLLFacade();
 
                 #region SeedDBData
+
                 // Genres
                 var action = bllFacade.GenreService.Create(
                     new GenreBO()
                     {
                         Name = "Action"
                     });
+                var romance = bllFacade.GenreService.Create(
+                    new GenreBO()
+                    {
+                        Name = "Romance"
+                    });
                 // Videos
                 var dieHard = bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Die Hard"
+                        Title = "Die Hard",
+                        GenreId = action.Id,
+                        PricePerDay = 15
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Titanic"
+                        Title = "Titanic",
+                        GenreId = romance.Id
                     });
 
-                // Rentals
-                bllFacade.RentalService.Create(
-                    new RentalBO()
-                    {
-                        VideoId = dieHard.Id
-                    });
 
                 // Profiles
                 bllFacade.ProfileService.Create(
@@ -69,6 +72,30 @@ namespace VideoRestAPI
                         FirstName = "Adamino",
                         LastName = "Hansen",
                         Address = "Home"
+                    });
+
+                // Roles
+                var admin = bllFacade.RoleService.Create(
+                    new RoleBO()
+                    {
+                        Name = "Admin"
+                    });
+
+                // Users
+                var adamino = bllFacade.UserService.Create(
+                    new UserBO()
+                    {
+                        Username = "Adamino",
+                        Password = "Secret",
+                        RoleId = admin.Id
+                    });
+
+                // Rentals
+                bllFacade.RentalService.Create(
+                    new RentalBO()
+                    {
+                        VideoId = dieHard.Id,
+                        UserId = adamino.Id
                     });
 
                 #endregion

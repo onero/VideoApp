@@ -9,6 +9,8 @@ namespace VideoAppDAL.Entities
         public DateTime To { get; set; }
         public int VideoId { get; set; }
         public Video Video { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
     }
 }

@@ -9,6 +9,8 @@ namespace VideoAppBLL.BusinessObjects
         public DateTime To { get; set; } = DateTime.Now.AddDays(7);
         public int VideoId { get; set; }
         public VideoBO Video { get; set; }
+        public int UserId { get; set; }
+        public UserBO User { get; set; }
 
         public int CompareTo(RentalBO other)
         {

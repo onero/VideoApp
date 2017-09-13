@@ -48,6 +48,7 @@ namespace VideoAppBLL.Service
             {
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
                 if (videoFromDB == null) return null;
+                videoFromDB.Genre = unitOfWork.GenreRepository.GetById(videoFromDB.GenreId);
                 return _converter.Convert(videoFromDB);
             }
         }
