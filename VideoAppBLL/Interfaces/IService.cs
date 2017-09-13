@@ -2,7 +2,7 @@
 
 namespace VideoAppBLL.Interfaces
 {
-    public interface IService<TEntity> where TEntity : class
+    public interface IService<TEntity>
     {
         TEntity Create(TEntity entityToCreate);
 
