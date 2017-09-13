@@ -12,10 +12,12 @@ namespace VideoAppDAL.UnitOfWork
         public IRepository<Video> VideoRepository { get; }
         public IRepository<Profile> ProfileRepository { get; }
         public IRepository<Rental> RentalRepository { get; }
+        public IRepository<Genre> GenreRepository { get; }
 
         public UnitOfWorkMem(InMemoryContext context)
         {
             _context = context;
+            GenreRepository = new GenreRepository(_context);
             VideoRepository = new VideoRepository(_context);
             ProfileRepository = new ProfileRepository(_context);
             RentalRepository = new RentalRepository(_context);

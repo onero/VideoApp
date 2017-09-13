@@ -1,24 +1,21 @@
-using System;
 using System.Collections.Generic;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL.Entities;
 using Xunit;
-using Xunit.Sdk;
 
 namespace VideoAppBLLTests
 {
     public class VideoServiceShould
     {
-        private readonly IVideoService _service;
-
         public VideoServiceShould()
         {
             var bllFacade = new BLLFacade();
             _service = bllFacade.VideoService;
             _service.ClearAll();
         }
+
+        private readonly IVideoService _service;
 
         private static readonly VideoBO MockVideo = new VideoBO
         {
@@ -35,7 +32,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void DeleteVideoById()
+        public void DeleteByExistingId()
         {
             var createdVideo = _service.Create(MockVideo);
             var idOfCreatedVideo = createdVideo.Id;
@@ -44,7 +41,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void FailGetOneVideoByWrongId()
+        public void NotGetOneByNonExistingId()
         {
             _service.Create(MockVideo);
             const int nonExistingId = 0;
@@ -53,7 +50,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetAllVideos()
+        public void GetAll()
         {
             _service.Create(MockVideo);
             var videos = _service.GetAll();
@@ -62,7 +59,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetOneVideoById()
+        public void GetOneById()
         {
             var createdVideo = _service.Create(MockVideo);
 
@@ -82,7 +79,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void ShouldUpdateVideo()
+        public void UpdateByExistingId()
         {
             var createdVideo = _service.Create(MockVideo);
             createdVideo.Title = "Awesome";

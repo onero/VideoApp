@@ -5,7 +5,6 @@ using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL.Interfaces;
-using static VideoAppBLL.Converters.VideoConverter;
 
 namespace VideoAppBLL.Service
 {
