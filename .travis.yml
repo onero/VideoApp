@@ -19,4 +19,6 @@ notifications:
     on_success: change
     on_failure: always
     template:
-      - "%{author} %{result} build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>)! in %{repository}@%{branch}"
+      - "%{author} %{result} build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) in %{repository}@%{branch}"
+      - "Travis message: %{message}"
+      - "Commit message: %{commit_message}"
