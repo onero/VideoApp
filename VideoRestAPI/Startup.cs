@@ -37,6 +37,12 @@ namespace VideoRestAPI
                 var bllFacade = new BLLFacade();
 
                 #region SeedDBData
+                // Genres
+                var action = bllFacade.GenreService.Create(
+                    new GenreBO()
+                    {
+                        Name = "Action"
+                    });
                 // Videos
                 var dieHard = bllFacade.VideoService.Create(
                     new VideoBO()
