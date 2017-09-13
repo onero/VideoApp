@@ -10,6 +10,8 @@ namespace VideoAppDAL.Interfaces
         IRepository<Profile> ProfileRepository { get; }
 
         IRepository<Rental> RentalRepository { get; }
+        IRepository<Genre> GenreRepository { get; }
+        IRepository<User> UserRepository { get; }
 
         void Complete();
     }

@@ -5,7 +5,6 @@ using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL.Interfaces;
-using static VideoAppBLL.Converters.VideoConverter;
 
 namespace VideoAppBLL.Service
 {
@@ -48,7 +47,8 @@ namespace VideoAppBLL.Service
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
-                return videoFromDB == null ? null : _converter.Convert(videoFromDB);
+                if (videoFromDB == null) return null;
+                return _converter.Convert(videoFromDB);
             }
         }
 
@@ -73,7 +73,6 @@ namespace VideoAppBLL.Service
                 if (videoFromRepo == null) return null;
 
                 videoFromRepo.Title = entityToUpdate.Title;
-                videoFromRepo.Genre = GenreConverter.Convert(entityToUpdate.Genre);
                 var updatedVideo = unitOfWork.VideoRepository.Update(videoFromRepo);
                 unitOfWork.Complete();
                 return _converter.Convert(updatedVideo);

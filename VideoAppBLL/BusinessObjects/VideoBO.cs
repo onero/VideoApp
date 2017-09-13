@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace VideoAppBLL.BusinessObjects
@@ -9,8 +10,8 @@ namespace VideoAppBLL.BusinessObjects
 
         [Required]
         public string Title { get; set; }
-        
-        public GenreBO Genre { get; set; } = GenreBO.Action;
+
+        public List<RentalBO> Rentals { get; set; } = new List<RentalBO>();
 
         public int CompareTo(VideoBO other)
         {
@@ -18,9 +19,7 @@ namespace VideoAppBLL.BusinessObjects
             if (ReferenceEquals(null, other)) return 1;
             var idComparison = Id.CompareTo(other.Id);
             if (idComparison != 0) return idComparison;
-            var titleComparison = string.Compare(Title, other.Title, StringComparison.Ordinal);
-            if (titleComparison != 0) return titleComparison;
-            return Genre.CompareTo(other.Genre);
+            return string.Compare(Title, other.Title, StringComparison.Ordinal);
         }
     }
 }

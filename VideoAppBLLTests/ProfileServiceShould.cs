@@ -6,11 +6,12 @@ using Xunit;
 
 namespace VideoAppBLLTests
 {
-    public class ProfileServiceShould
+    public class ProfileServiceShould : ITest
     {
+        private const int NonExistingId = 999;
         private readonly IProfileService _service;
 
-        private readonly ProfileBO _mockProfile = new ProfileBO()
+        private static readonly ProfileBO MockProfile = new ProfileBO()
         {
             Id = 1,
             FirstName = "Adamino",
@@ -25,26 +26,26 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void CreateOneProfile()
+        public void CreateOne()
         {
-            var createdProfile = _service.Create(_mockProfile);
+            var createdProfile = _service.Create(MockProfile);
 
             Assert.NotNull(createdProfile);
         }
 
         [Fact]
-        public void GetAllProfiles()
+        public void GetAll()
         {
-            _service.Create(_mockProfile);
+            _service.Create(MockProfile);
             var profiles = _service.GetAll();
 
             Assert.NotEmpty(profiles);
         }
 
         [Fact]
-        public void GetProfileByExistingId()
+        public void GetOneByExistingId()
         {
-            var createdProfile = _service.Create(_mockProfile);
+            var createdProfile = _service.Create(MockProfile);
             var idOfProfile = createdProfile.Id;
             var profileById = _service.GetById(idOfProfile);
 
@@ -52,18 +53,17 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void FailGetProfileByNonExistingId()
+        public void NotGetOneByNonExistingId()
         {
-            const int nonExistingId = 0;
-            var profile = _service.GetById(nonExistingId);
+            var profile = _service.GetById(NonExistingId);
 
             Assert.Null(profile);
         }
 
         [Fact]
-        public void DeleteVideoById()
+        public void DeleteByExistingId()
         {
-            var createdProfile = _service.Create(_mockProfile);
+            var createdProfile = _service.Create(MockProfile);
 
             var profileDeleted = _service.Delete(createdProfile.Id);
 
@@ -71,14 +71,30 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void UpdateVideo()
+        public void NotDeleteByNonExistingId()
         {
-            var createdVideo = _service.Create(_mockProfile);
+            var deleted = _service.Delete(NonExistingId);
+
+            Assert.False(deleted);
+        }
+
+        [Fact]
+        public void UpdateByExistingId()
+        {
+            var createdVideo = _service.Create(MockProfile);
             createdVideo.FirstName = "Changed!";
 
             var updatedVideo = _service.Update(createdVideo);
 
             Assert.Equal(createdVideo, updatedVideo);
+        }
+
+        [Fact]
+        public void NotUpdateByNonExistingId()
+        {
+            var result = _service.Update(MockProfile);
+
+            Assert.Null(result);
         }
     }
 }

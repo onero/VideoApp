@@ -3,16 +3,24 @@ using VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Converters
 {
-    internal static class GenreConverter
+    public class GenreConverter : IConverter<Genre, GenreBO>
     {
-        public static Genre Convert(GenreBO genre)
+        public Genre Convert(GenreBO entity)
         {
-            return (Genre) genre;
+            return new Genre()
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
         }
 
-        public static GenreBO Convert(Genre genre)
+        public GenreBO Convert(Genre entity)
         {
-            return (GenreBO)genre;
+            return new GenreBO()
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
         }
     }
 }

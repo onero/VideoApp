@@ -1,16 +1,14 @@
-using System;
+using System.Collections.Generic;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL.Entities;
 using Xunit;
-using Xunit.Sdk;
 
 namespace VideoAppBLLTests
 {
-    public class VideoServiceShould
+    public class VideoServiceShould : ITest
     {
-        private readonly IVideoService _service;
+        private const int NonExistingId = 999;
 
         public VideoServiceShould()
         {
@@ -19,14 +17,16 @@ namespace VideoAppBLLTests
             _service.ClearAll();
         }
 
+        private readonly IVideoService _service;
+
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Genre = GenreBO.Action
+            Rentals = new List<RentalBO>()
         };
 
         [Fact]
-        public void CreateOneVideo()
+        public void CreateOne()
         {
             var created = _service.Create(MockVideo);
 
@@ -34,25 +34,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void DeleteVideoById()
-        {
-            var createdVideo = _service.Create(MockVideo);
-            var idOfCreatedVideo = createdVideo.Id;
-            var videoDeleted = _service.Delete(idOfCreatedVideo);
-            Assert.True(videoDeleted);
-        }
-
-        [Fact]
-        public void FailGetOneVideoByWrongId()
-        {
-            _service.Create(MockVideo);
-            const int nonExistingId = 0;
-            var videoFromSearch = _service.GetById(nonExistingId);
-            Assert.Null(videoFromSearch);
-        }
-
-        [Fact]
-        public void GetAllVideos()
+        public void GetAll()
         {
             _service.Create(MockVideo);
             var videos = _service.GetAll();
@@ -61,13 +43,56 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetOneVideoById()
+        public void GetOneByExistingId()
         {
             var createdVideo = _service.Create(MockVideo);
 
             var videoFromSearch = _service.GetById(createdVideo.Id);
 
             Assert.Equal(createdVideo, videoFromSearch);
+        }
+
+        [Fact]
+        public void NotGetOneByNonExistingId()
+        {
+            _service.Create(MockVideo);
+            var videoFromSearch = _service.GetById(NonExistingId);
+            Assert.Null(videoFromSearch);
+        }
+
+        [Fact]
+        public void DeleteByExistingId()
+        {
+            var createdVideo = _service.Create(MockVideo);
+            var idOfCreatedVideo = createdVideo.Id;
+            var videoDeleted = _service.Delete(idOfCreatedVideo);
+            Assert.True(videoDeleted);
+        }
+
+        [Fact]
+        public void NotDeleteByNonExistingId()
+        {
+            var deleted = _service.Delete(NonExistingId);
+
+            Assert.False(deleted);
+        }
+
+        [Fact]
+        public void UpdateByExistingId()
+        {
+            var createdVideo = _service.Create(MockVideo);
+            createdVideo.Title = "Awesome";
+            var updatedVideo = _service.Update(createdVideo);
+
+            Assert.Equal(createdVideo, updatedVideo);
+        }
+
+        [Fact]
+        public void NotUpdateByNonExistingId()
+        {
+            var result = _service.Update(MockVideo);
+
+            Assert.Null(result);
         }
 
         [Fact]
@@ -78,17 +103,6 @@ namespace VideoAppBLLTests
             var videos = _service.GetAll();
 
             Assert.Empty(videos);
-        }
-
-        [Fact]
-        public void ShouldUpdateVideo()
-        {
-            var createdVideo = _service.Create(MockVideo);
-            createdVideo.Title = "Awesome";
-            createdVideo.Genre = GenreBO.Romance;
-            var updatedVideo = _service.Update(createdVideo);
-
-            Assert.Equal(createdVideo, updatedVideo);
         }
     }
 }

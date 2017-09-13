@@ -37,18 +37,22 @@ namespace VideoRestAPI
                 var bllFacade = new BLLFacade();
 
                 #region SeedDBData
+                // Genres
+                var action = bllFacade.GenreService.Create(
+                    new GenreBO()
+                    {
+                        Name = "Action"
+                    });
                 // Videos
                 var dieHard = bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Die Hard",
-                        Genre = GenreBO.Action
+                        Title = "Die Hard"
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Titanic",
-                        Genre = GenreBO.Romance
+                        Title = "Titanic"
                     });
 
                 // Rentals
