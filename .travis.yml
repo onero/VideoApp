@@ -14,7 +14,7 @@ branches:
 notifications:
   email: false
   slack: cs2016a:MrE8tgSmsfcVCMVTa1JgT78G
-    template:
-      - "%{author} %{result} build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>)! in %{repository}@%{branch}"
     on_success: change
     on_failure: always
+    template:
+      - "%{author} %{result} build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>)! in %{repository}@%{branch}"
