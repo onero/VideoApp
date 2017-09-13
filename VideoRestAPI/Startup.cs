@@ -71,6 +71,14 @@ namespace VideoRestAPI
                         Address = "Home"
                     });
 
+                // Users
+                bllFacade.UserService.Create(
+                    new UserBO()
+                    {
+                        Username = "Adamino",
+                        Password = "Secret"
+                    });
+
                 #endregion
             }
 
