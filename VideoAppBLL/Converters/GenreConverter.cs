@@ -7,6 +7,8 @@ namespace VideoAppBLL.Converters
     {
         public Genre Convert(GenreBO entity)
         {
+            if (entity == null) return null;
+
             return new Genre()
             {
                 Id = entity.Id,
@@ -16,6 +18,7 @@ namespace VideoAppBLL.Converters
 
         public GenreBO Convert(Genre entity)
         {
+            if (entity == null) return null;
             return new GenreBO()
             {
                 Id = entity.Id,

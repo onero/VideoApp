@@ -43,16 +43,24 @@ namespace VideoRestAPI
                     {
                         Name = "Action"
                     });
+                var romance = bllFacade.GenreService.Create(
+                    new GenreBO()
+                    {
+                        Name = "Romance"
+                    });
                 // Videos
                 var dieHard = bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Die Hard"
+                        Title = "Die Hard",
+                        GenreId = action.Id
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
-                        Title = "Titanic"
+                        Title = "Titanic",
+                        GenreId = romance.Id
+
                     });
 
                 // Rentals
