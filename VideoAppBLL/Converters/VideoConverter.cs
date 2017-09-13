@@ -19,7 +19,8 @@ namespace VideoAppBLL.Converters
                 Id = video.Id,
                 Title = video.Title,
                 GenreId = video.GenreId,
-                Genre = new GenreConverter().Convert(video.Genre)
+                Genre = new GenreConverter().Convert(video.Genre),
+                PricePerDay = video.PricePerDay
             };
         }
 
@@ -36,7 +37,8 @@ namespace VideoAppBLL.Converters
             {
                 Id = video.Id,
                 Title = video.Title,
-                GenreId = video.GenreId
+                GenreId = video.GenreId,
+                PricePerDay = video.PricePerDay
             };
         }
     }

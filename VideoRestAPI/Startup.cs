@@ -53,7 +53,8 @@ namespace VideoRestAPI
                     new VideoBO()
                     {
                         Title = "Die Hard",
-                        GenreId = action.Id
+                        GenreId = action.Id,
+                        PricePerDay = 15
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
