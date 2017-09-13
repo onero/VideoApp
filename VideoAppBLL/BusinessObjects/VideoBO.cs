@@ -10,8 +10,8 @@ namespace VideoAppBLL.BusinessObjects
 
         [Required]
         public string Title { get; set; }
-
-        public int GenreId { get; set; } = 1;
+        [Required]
+        public int GenreId { get; set; }
         public GenreBO Genre { get; set; }
         public double PricePerDay { get; set; } = 10;
 

@@ -13,7 +13,8 @@ namespace VideoAppBLL.Converters
                 Id = rental.Id,
                 From = rental.From,
                 To = rental.To,
-                VideoId = rental.VideoId
+                VideoId = rental.VideoId,
+                UserId = rental.UserId
             };
         }
 
@@ -27,7 +28,9 @@ namespace VideoAppBLL.Converters
                 From = rental.From,
                 To = rental.To,
                 VideoId = rental.VideoId,
-                Video = new VideoConverter().Convert(rental.Video)
+                Video = new VideoConverter().Convert(rental.Video),
+                UserId = rental.UserId,
+                User = new UserConverter().Convert(rental.User)
             };
         }
     }

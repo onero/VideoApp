@@ -37,6 +37,7 @@ namespace VideoRestAPI
                 var bllFacade = new BLLFacade();
 
                 #region SeedDBData
+
                 // Genres
                 var action = bllFacade.GenreService.Create(
                     new GenreBO()
@@ -61,15 +62,8 @@ namespace VideoRestAPI
                     {
                         Title = "Titanic",
                         GenreId = romance.Id
-
                     });
 
-                // Rentals
-                bllFacade.RentalService.Create(
-                    new RentalBO()
-                    {
-                        VideoId = dieHard.Id
-                    });
 
                 // Profiles
                 bllFacade.ProfileService.Create(
@@ -80,19 +74,28 @@ namespace VideoRestAPI
                         Address = "Home"
                     });
 
-                // Users
-                bllFacade.UserService.Create(
-                    new UserBO()
-                    {
-                        Username = "Adamino",
-                        Password = "Secret"
-                    });
-
                 // Roles
-                bllFacade.RoleService.Create(
+                var admin = bllFacade.RoleService.Create(
                     new RoleBO()
                     {
                         Name = "Admin"
+                    });
+
+                // Users
+                var adamino = bllFacade.UserService.Create(
+                    new UserBO()
+                    {
+                        Username = "Adamino",
+                        Password = "Secret",
+                        RoleId = admin.Id
+                    });
+
+                // Rentals
+                bllFacade.RentalService.Create(
+                    new RentalBO()
+                    {
+                        VideoId = dieHard.Id,
+                        UserId = adamino.Id
                     });
 
                 #endregion

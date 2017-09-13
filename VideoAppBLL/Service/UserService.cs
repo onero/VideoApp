@@ -45,9 +45,12 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                var videoFromDB = unitOfWork.UserRepository.GetById(id);
-                if (videoFromDB == null) return null;
-                return _converter.Convert(videoFromDB);
+                var userFromDB = unitOfWork.UserRepository.GetById(id);
+                if (userFromDB == null) return null;
+                var role = unitOfWork.RoleRepository.GetById(userFromDB.RoleId);
+                if (role == null) return _converter.Convert(userFromDB);
+                userFromDB.Role = role;
+                return _converter.Convert(userFromDB);
             }
         }
 

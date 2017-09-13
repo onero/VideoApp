@@ -49,8 +49,11 @@ namespace VideoAppBLL.Service
                 // Get video from rental
                 var video = unitOfWork.VideoRepository.GetById(rental.VideoId);
                 if (video == null) return _converter.Convert(rental);
-
                 rental.Video = video;
+                // Get user from rental
+                var user = unitOfWork.UserRepository.GetById(rental.UserId);
+                if (user == null) return _converter.Convert(rental);
+                rental.User = user;
                 return _converter.Convert(rental);
             }
         }

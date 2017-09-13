@@ -22,7 +22,7 @@ namespace VideoAppBLLTests
         private static readonly VideoBO MockVideo = new VideoBO
         {
             Title = "Die Hard",
-            Rentals = new List<RentalBO>()
+            GenreId = 1
         };
 
         [Fact]
@@ -49,7 +49,7 @@ namespace VideoAppBLLTests
 
             var videoFromSearch = _service.GetById(createdVideo.Id);
 
-            Assert.Equal(createdVideo, videoFromSearch);
+            Assert.Equal(createdVideo.Id, videoFromSearch.Id);
         }
 
         [Fact]
