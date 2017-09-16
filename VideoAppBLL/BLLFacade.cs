@@ -6,7 +6,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL
 {
-    public class BLLFacade : IBLLFacade
+    public class BLLFacade
     {
         private readonly IDALFacade _dalFacade;
 
