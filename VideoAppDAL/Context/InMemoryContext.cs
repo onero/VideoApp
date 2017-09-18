@@ -6,18 +6,16 @@ namespace VideoAppDAL.Context
 {
     public class InMemoryContext : DbContext, IVideoContext
     {
-        //In memory setup
-        //private readonly DbContextOptions<InMemoryContext> _options;
-
         //Options that we want in memory
         public InMemoryContext(DbContextOptions<InMemoryContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {// AddressId + CustomerId = PK
+        {
+            // AddressId + CustomerId = PK
             modelBuilder.Entity<VideoGenre>()
-                .HasKey(vg => new { vg.GenreId, vg.VideoId });
+                .HasKey(vg => new {vg.GenreId, vg.VideoId});
 
             /* One address in CustomerAddress is one address from Address table,
              * however that one address can have many customers,
@@ -45,6 +43,5 @@ namespace VideoAppDAL.Context
         public DbSet<Genre> Genres { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-
     }
 }
