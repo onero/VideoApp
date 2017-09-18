@@ -6,7 +6,7 @@ install:
 - dotnet restore
 script:
 - dotnet build
-- dotnet test VideoAppBLLTests/VideoAppBLLTests.csproj
+- dotnet test VideoAppDALTests/VideoAppDALTests.csproj
 branches:
   only:
   - master
