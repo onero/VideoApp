@@ -36,69 +36,69 @@ namespace VideoRestAPI
                 app.UseDeveloperExceptionPage();
                 var bllFacade = new BLLFacade();
 
-                #region SeedDBData
+                //#region SeedDBData
 
-                // Genres
-                var action = bllFacade.GenreService.Create(
-                    new GenreBO()
-                    {
-                        Name = "Action"
-                    });
-                var romance = bllFacade.GenreService.Create(
-                    new GenreBO()
-                    {
-                        Name = "Romance"
-                    });
-                // Videos
-                var dieHard = bllFacade.VideoService.Create(
-                    new VideoBO()
-                    {
-                        Title = "Die Hard",
-                        PricePerDay = 15,
-                        GenreIds = new List<int>() {action.Id}
-                    });
-                bllFacade.VideoService.Create(
-                    new VideoBO()
-                    {
-                        Title = "Titanic",
-                        GenreIds = new List<int>() { romance.Id }
-                    });
+                //// Genres
+                //var action = bllFacade.GenreService.Create(
+                //    new GenreBO()
+                //    {
+                //        Name = "Action"
+                //    });
+                //var romance = bllFacade.GenreService.Create(
+                //    new GenreBO()
+                //    {
+                //        Name = "Romance"
+                //    });
+                //// Videos
+                //var dieHard = bllFacade.VideoService.Create(
+                //    new VideoBO()
+                //    {
+                //        Title = "Die Hard",
+                //        PricePerDay = 15,
+                //        GenreIds = new List<int>() {action.Id}
+                //    });
+                //bllFacade.VideoService.Create(
+                //    new VideoBO()
+                //    {
+                //        Title = "Titanic",
+                //        GenreIds = new List<int>() { romance.Id }
+                //    });
 
 
-                // Profiles
-                bllFacade.ProfileService.Create(
-                    new ProfileBO()
-                    {
-                        FirstName = "Adamino",
-                        LastName = "Hansen",
-                        Address = "Home"
-                    });
+                //// Profiles
+                //bllFacade.ProfileService.Create(
+                //    new ProfileBO()
+                //    {
+                //        FirstName = "Adamino",
+                //        LastName = "Hansen",
+                //        Address = "Home"
+                //    });
 
-                // Roles
-                var admin = bllFacade.RoleService.Create(
-                    new RoleBO()
-                    {
-                        Name = "Admin"
-                    });
+                //// Roles
+                //var admin = bllFacade.RoleService.Create(
+                //    new RoleBO()
+                //    {
+                //        Name = "Admin"
+                //    });
 
-                // Users
-                var adamino = bllFacade.UserService.Create(
-                    new UserBO()
-                    {
-                        Username = "Adamino",
-                        Password = "Secret",
-                        RoleId = admin.Id
-                    });
+                //// Users
+                //var adamino = bllFacade.UserService.Create(
+                //    new UserBO()
+                //    {
+                //        Username = "Adamino",
+                //        Password = "Secret",
+                //        RoleId = admin.Id
+                //    });
 
-                // Rentals
-                bllFacade.RentalService.Create(
-                    new RentalBO()
-                    {
-                        VideoId = dieHard.Id,
-                        UserId = adamino.Id
-                    });
+                //// Rentals
+                //bllFacade.RentalService.Create(
+                //    new RentalBO()
+                //    {
+                //        VideoId = dieHard.Id,
+                //        UserId = adamino.Id
+                //    });
 
-                #endregion
+                //#endregion
             }
 
             app.UseMvc();

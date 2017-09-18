@@ -6,6 +6,6 @@ namespace VideoAppDAL
 {
     public class DALFacade : IDALFacade
     {
-        public IUnitOfWork UnitOfWork => new UnitOfWorkMem(new InMemoryContext());
+        public IUnitOfWork UnitOfWork => new UnitOfWork.UnitOfWork(new SQLContext());
     }
 }

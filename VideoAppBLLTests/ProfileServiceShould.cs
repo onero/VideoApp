@@ -21,7 +21,7 @@ namespace VideoAppBLLTests
         };
         public ProfileServiceShould()
         {
-            var bllFacade = new BLLFacade();
+            var bllFacade = new BLLFacadeMock();
             _service = bllFacade.ProfileService;
             _service.ClearAll();
         }

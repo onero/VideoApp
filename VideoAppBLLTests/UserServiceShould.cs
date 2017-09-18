@@ -20,7 +20,7 @@ namespace VideoAppBLLTests
 
         public UserServiceShould()
         {
-            var bllFacade = new BLLFacade();
+            var bllFacade = new BLLFacadeMock();
             _service = bllFacade.UserService;
             _service.ClearAll();
         }
