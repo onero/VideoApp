@@ -8,7 +8,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class ProfileService : IProfileService
+    internal class ProfileService : IProfileService
     {
         private readonly DALFacade _facade;
         private readonly ProfileConverter _converter;

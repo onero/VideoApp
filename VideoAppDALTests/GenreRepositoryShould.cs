@@ -10,7 +10,7 @@ using Xunit;
 
 namespace VideoAppDALTests
 {
-    public class GenreRepositoryShould : ITest
+    public class GenreRepositoryShould : IRepositoryTest
     {
         private const int NonExistingId = 999;
 

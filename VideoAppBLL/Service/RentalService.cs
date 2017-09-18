@@ -8,7 +8,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class RentalService : IRentalService
+    internal class RentalService : IRentalService
     {
         private readonly DALFacade _facade;
         private readonly RentalConverter _converter;

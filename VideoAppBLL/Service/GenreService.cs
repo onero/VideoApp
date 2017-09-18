@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL;
-using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class GenreService : IGenreService
+    internal class GenreService : IGenreService
     {
-        private readonly DALFacade _facade;
         private readonly GenreConverter _converter;
+        private readonly DALFacade _facade;
 
         public GenreService(DALFacade facade)
         {
@@ -31,7 +31,7 @@ namespace VideoAppBLL.Service
 
         public IList<GenreBO> CreateAll(IList<GenreBO> customers)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IList<GenreBO> GetAll()
@@ -57,15 +57,13 @@ namespace VideoAppBLL.Service
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 if (ids == null) return null;
-                return unitOfWork.GenreRepository.
-                    GetAllByIds(ids).
-                    Select(_converter.Convert).ToList();
+                return unitOfWork.GenreRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 
         public bool Delete(int id)
         {
-            using(var unitOfWork = _facade.UnitOfWork)
+            using (var unitOfWork = _facade.UnitOfWork)
             {
                 var genreFromDB = unitOfWork.GenreRepository.GetById(id);
                 if (genreFromDB == null) return false;

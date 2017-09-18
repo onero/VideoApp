@@ -8,7 +8,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class RoleService : IRoleService
+    internal class RoleService : IRoleService
     {
         private readonly DALFacade _facade;
         private readonly RoleConverter _converter;

@@ -3,7 +3,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL
 {
-    public class DALFacade
+    public class DALFacade : IDALFacade
     {
         public IUnitOfWork UnitOfWork => new UnitOfWork.UnitOfWork(new SQLContext());
     }

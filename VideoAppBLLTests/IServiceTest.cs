@@ -1,6 +1,8 @@
-﻿namespace VideoAppDALTests
+﻿using Xunit;
+
+namespace VideoAppBLLTests
 {
-    public interface ITest
+    public interface IServiceTest
     {
         void CreateOne();
 

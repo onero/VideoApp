@@ -8,7 +8,7 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
         private readonly DALFacade _facade;
         private readonly UserConverter _converter;

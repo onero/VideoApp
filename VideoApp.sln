@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppDALTests", "VideoAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoRestAPI", "VideoRestAPI\VideoRestAPI.csproj", "{C7858110-08FA-4466-999F-AF9D2F6B8DED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoAppBLLTests", "VideoAppBLLTests\VideoAppBLLTests.csproj", "{8B7E8E9E-E4FA-4A09-A2BF-1FCB14848EAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C7858110-08FA-4466-999F-AF9D2F6B8DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7858110-08FA-4466-999F-AF9D2F6B8DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7858110-08FA-4466-999F-AF9D2F6B8DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7E8E9E-E4FA-4A09-A2BF-1FCB14848EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7E8E9E-E4FA-4A09-A2BF-1FCB14848EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7E8E9E-E4FA-4A09-A2BF-1FCB14848EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7E8E9E-E4FA-4A09-A2BF-1FCB14848EAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
