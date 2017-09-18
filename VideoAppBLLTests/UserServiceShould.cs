@@ -1,4 +1,5 @@
-﻿using VideoAppBLL;
+﻿using System.Collections.Generic;
+using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using Xunit;
@@ -56,6 +57,23 @@ namespace VideoAppBLLTests
             _service.Create(MockUser);
             var userFromSearch = _service.GetById(NonExistingId);
             Assert.Null(userFromSearch);
+        }
+
+        [Fact]
+        public void GetAllByExistingIds()
+        {
+            _service.Create(MockUser);
+            var ids = new List<int>() { MockUser.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.NotEmpty(genres);
+        }
+
+        [Fact]
+        public void NotGetAllByNonExistingIds()
+        {
+            var ids = new List<int>() { MockUser.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.Empty(genres);
         }
 
         [Fact]

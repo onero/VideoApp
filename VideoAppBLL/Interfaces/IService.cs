@@ -12,6 +12,8 @@ namespace VideoAppBLL.Interfaces
 
         TEntity GetById(int id);
 
+        List<TEntity> GetAllByIds(List<int> ids);
+
         bool Delete(int id);
 
         TEntity Update(TEntity entityToUpdate);

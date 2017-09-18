@@ -5,12 +5,12 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL.Repository
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class ARepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
 
         protected readonly DbContext Context;
 
-        protected Repository(DbContext context)
+        protected ARepository(DbContext context)
         {
             Context = context;
         }
@@ -20,15 +20,17 @@ namespace VideoAppDAL.Repository
             return Context.Add(entity).Entity;
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return Context.Set<TEntity>().ToList();
         }
 
-        public TEntity GetById(int id)
+        public virtual TEntity GetById(int id)
         {
             return Context.Set<TEntity>().Find(id);
         }
+
+        public abstract List<TEntity> GetAllById(List<int> ids);
 
         public bool Delete(int id)
         {

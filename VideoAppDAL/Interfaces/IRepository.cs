@@ -10,6 +10,8 @@ namespace VideoAppDAL.Interfaces
 
         TEntity GetById(int id);
 
+        List<TEntity> GetAllById(List<int> ids);
+
         bool Delete(int id);
 
         TEntity Update(TEntity entity);

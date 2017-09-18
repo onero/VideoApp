@@ -1,11 +1,12 @@
-﻿using VideoAppBLL;
+﻿using System.Collections.Generic;
+using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using Xunit;
 
 namespace VideoAppBLLTests
 {
-    public class RentalServiceShould
+    public class RentalServiceShould : ITest
     {
         private const int NonExistingId = 999;
         private readonly IRentalService _service;
@@ -26,7 +27,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void CreateOneRental()
+        public void CreateOne()
         {
             var createdRental = _service.Create(MockRental);
 
@@ -34,7 +35,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetAllRentals()
+        public void GetAll()
         {
             _service.Create(MockRental);
             var rentals = _service.GetAll();
@@ -43,7 +44,7 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void GetByExistingId()
+        public void GetOneByExistingId()
         {
             var createdRental = _service.Create(MockRental);
 
@@ -53,11 +54,28 @@ namespace VideoAppBLLTests
         }
 
         [Fact]
-        public void NotGetByNonExistingId()
+        public void NotGetOneByNonExistingId()
         {
             var result = _service.GetById(NonExistingId);
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetAllByExistingIds()
+        {
+            var rental = _service.Create(MockRental);
+            var ids = new List<int>() { rental.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.NotEmpty(genres);
+        }
+
+        [Fact]
+        public void NotGetAllByNonExistingIds()
+        {
+            var ids = new List<int>() { MockRental.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.Empty(genres);
         }
 
         [Fact]

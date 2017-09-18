@@ -1,4 +1,5 @@
-﻿using VideoAppBLL;
+﻿using System.Collections.Generic;
+using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using Xunit;
@@ -13,7 +14,7 @@ namespace VideoAppBLLTests
         private static readonly GenreBO MockGenre = new GenreBO
         {
             Id = 1,
-            Name = "Action"
+            Name = "Action",
         };
 
         public GenreServiceShould()
@@ -56,6 +57,23 @@ namespace VideoAppBLLTests
             var genre = _service.GetById(NonExistingId);
 
             Assert.Null(genre);
+        }
+
+        [Fact]
+        public void GetAllByExistingIds()
+        {
+            _service.Create(MockGenre);
+            var ids = new List<int>() {MockGenre.Id};
+            var genres = _service.GetAllByIds(ids);
+            Assert.NotEmpty(genres);
+        }
+
+        [Fact]
+        public void NotGetAllByNonExistingIds()
+        {
+            var ids = new List<int>() { MockGenre.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.Empty(genres);
         }
 
         [Fact]

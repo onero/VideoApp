@@ -51,6 +51,17 @@ namespace VideoAppBLL.Service
             }
         }
 
+        public List<RoleBO> GetAllByIds(List<int> ids)
+        {
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                if (ids == null) return null;
+                return unitOfWork.RoleRepository.
+                    GetAllById(ids).
+                    Select(_converter.Convert).ToList();
+            }
+        }
+
         public bool Delete(int id)
         {
             using (var unitOfWork = _facade.UnitOfWork)

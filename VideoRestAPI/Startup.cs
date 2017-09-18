@@ -54,14 +54,14 @@ namespace VideoRestAPI
                     new VideoBO()
                     {
                         Title = "Die Hard",
-                        GenreId = action.Id,
-                        PricePerDay = 15
+                        PricePerDay = 15,
+                        GenreIds = new List<int>() {action.Id}
                     });
                 bllFacade.VideoService.Create(
                     new VideoBO()
                     {
                         Title = "Titanic",
-                        GenreId = romance.Id
+                        GenreIds = new List<int>() { romance.Id }
                     });
 
 

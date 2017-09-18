@@ -1,18 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Entities;
-using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL.Context
 {
-    internal class InMemoryContext : DbContext, IVideoContext
+    internal sealed class SQLContext : DbContext, IVideoContext
     {
-        //In memory setup
-        private static readonly DbContextOptions<InMemoryContext> Options =
-            new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase("VideoDB").Options;
-
-        //Options that we want in memory
-        public InMemoryContext() : base(Options)
+        public SQLContext()
         {
+            Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                //TODO ALH: Add connection string
+                optionsBuilder.UseSqlServer("");
+            }
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,12 +45,11 @@ namespace VideoAppDAL.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Video> Videos { set; get; }
+        public DbSet<Video> Videos { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-
     }
 }

@@ -12,11 +12,13 @@ namespace VideoAppBLL.Service
     {
         private readonly IDALFacade _facade;
         private readonly VideoConverter _converter;
+        private readonly GenreConverter _genreConverter;
 
         public VideoService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new VideoConverter();
+            _genreConverter = new GenreConverter();
         }
 
         public VideoBO Create(VideoBO video)
@@ -48,8 +50,26 @@ namespace VideoAppBLL.Service
             {
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
                 if (videoFromDB == null) return null;
-                videoFromDB.Genre = unitOfWork.GenreRepository.GetById(videoFromDB.GenreId);
-                return _converter.Convert(videoFromDB);
+                var convertedVideo = _converter.Convert(videoFromDB);
+                if (convertedVideo.GenreIds == null) return convertedVideo;
+
+                // Get all genres for video
+                convertedVideo.Genres = unitOfWork.GenreRepository.
+                    GetAllById(convertedVideo.GenreIds)
+                    .Select(g => _genreConverter.Convert(g))
+                    .ToList();
+                return convertedVideo;
+            }
+        }
+
+        public List<VideoBO> GetAllByIds(List<int> ids)
+        {
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                if (ids == null) return null;
+                return unitOfWork.VideoRepository?.
+                    GetAllById(ids).
+                    Select(_converter.Convert).ToList();
             }
         }
 

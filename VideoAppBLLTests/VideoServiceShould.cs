@@ -21,8 +21,7 @@ namespace VideoAppBLLTests
 
         private static readonly VideoBO MockVideo = new VideoBO
         {
-            Title = "Die Hard",
-            GenreId = 1
+            Title = "Die Hard"
         };
 
         [Fact]
@@ -58,6 +57,23 @@ namespace VideoAppBLLTests
             _service.Create(MockVideo);
             var videoFromSearch = _service.GetById(NonExistingId);
             Assert.Null(videoFromSearch);
+        }
+
+        [Fact]
+        public void GetAllByExistingIds()
+        {
+            var video = _service.Create(MockVideo);
+            var ids = new List<int>() { video.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.NotEmpty(genres);
+        }
+
+        [Fact]
+        public void NotGetAllByNonExistingIds()
+        {
+            var ids = new List<int>() { MockVideo.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.Empty(genres);
         }
 
         [Fact]

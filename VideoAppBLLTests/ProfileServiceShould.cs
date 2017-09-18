@@ -1,4 +1,5 @@
-﻿using VideoAppBLL;
+﻿using System.Collections.Generic;
+using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL.Entities;
@@ -58,6 +59,23 @@ namespace VideoAppBLLTests
             var profile = _service.GetById(NonExistingId);
 
             Assert.Null(profile);
+        }
+
+        [Fact]
+        public void GetAllByExistingIds()
+        {
+            _service.Create(MockProfile);
+            var ids = new List<int>() { MockProfile.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.NotEmpty(genres);
+        }
+
+        [Fact]
+        public void NotGetAllByNonExistingIds()
+        {
+            var ids = new List<int>() { MockProfile.Id };
+            var genres = _service.GetAllByIds(ids);
+            Assert.Empty(genres);
         }
 
         [Fact]
