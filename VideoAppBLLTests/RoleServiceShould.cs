@@ -19,7 +19,7 @@ namespace VideoAppBLLTests
 
         public RoleServiceShould()
         {
-            var facade = new BLLFacade();
+            var facade = new BLLFacadeMock();
             _service = facade.RoleService;
             _service.ClearAll();
         }

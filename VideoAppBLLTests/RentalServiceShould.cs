@@ -21,7 +21,7 @@ namespace VideoAppBLLTests
 
         public RentalServiceShould()
         {
-            var bllFacade = new BLLFacade();
+            var bllFacade = new BLLFacadeMock();
             _service = bllFacade.RentalService;
             _service.ClearAll();
         }

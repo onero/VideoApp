@@ -19,7 +19,7 @@ namespace VideoAppBLLTests
 
         public GenreServiceShould()
         {
-            var bllFacade = new BLLFacade();
+            var bllFacade = new BLLFacadeMock();
             _service = bllFacade.GenreService;
             _service.ClearAll();
         }

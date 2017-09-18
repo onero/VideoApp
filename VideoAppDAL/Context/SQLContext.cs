@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Context
 {
     internal sealed class SQLContext : DbContext, IVideoContext
     {
+
+        private static readonly string DBConnectionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConnection.txt");
+        private static readonly string ConnectionString = File.ReadAllText(DBConnectionPath);
+
         public SQLContext()
         {
             Database.EnsureCreated();
@@ -14,8 +20,7 @@ namespace VideoAppDAL.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //TODO ALH: Add connection string
-                optionsBuilder.UseSqlServer("");
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
             base.OnConfiguring(optionsBuilder);
         }

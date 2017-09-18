@@ -1,13 +1,14 @@
-﻿using VideoAppDAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using VideoAppDAL.Context;
 using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
 using VideoAppDAL.Repository;
 
 namespace VideoAppDAL.UnitOfWork
 {
-    internal class UnitOfWorkMem : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork
     {
-        private readonly InMemoryContext _context;
+        private readonly DbContext _context;
 
         public IRepository<Video> VideoRepository { get; }
         public IRepository<Profile> ProfileRepository { get; }
@@ -16,7 +17,7 @@ namespace VideoAppDAL.UnitOfWork
         public IRepository<User> UserRepository { get; }
         public IRepository<Role> RoleRepository { get; }
 
-        public UnitOfWorkMem(InMemoryContext context)
+        public UnitOfWork(DbContext context)
         {
             _context = context;
             RoleRepository = new RoleRepository(_context);
