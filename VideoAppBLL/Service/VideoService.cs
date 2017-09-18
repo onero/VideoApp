@@ -4,17 +4,18 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
+using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     internal class VideoService : IVideoService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly VideoConverter _converter;
         private readonly GenreConverter _genreConverter;
 
-        public VideoService(IDALFacade facade)
+        public VideoService(DALFacade facade)
         {
             _facade = facade;
             _converter = new VideoConverter();
@@ -55,7 +56,7 @@ namespace VideoAppBLL.Service
 
                 // Get all genres for video
                 convertedVideo.Genres = unitOfWork.GenreRepository.
-                    GetAllById(convertedVideo.GenreIds)
+                    GetAllByIds(convertedVideo.GenreIds)
                     .Select(g => _genreConverter.Convert(g))
                     .ToList();
                 return convertedVideo;
@@ -68,7 +69,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.VideoRepository?.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -97,15 +98,6 @@ namespace VideoAppBLL.Service
                 var updatedVideo = unitOfWork.VideoRepository.Update(videoFromRepo);
                 unitOfWork.Complete();
                 return _converter.Convert(updatedVideo);
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.VideoRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }

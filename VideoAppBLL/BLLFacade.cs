@@ -8,7 +8,7 @@ namespace VideoAppBLL
 {
     public class BLLFacade : IBLLFacade
     {
-        private readonly IDALFacade _dalFacade;
+        private readonly DALFacade _dalFacade;
 
         public BLLFacade()
         {

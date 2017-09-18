@@ -3,16 +3,17 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
+using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     public class RoleService : IRoleService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly RoleConverter _converter;
 
-        public RoleService(IDALFacade facade)
+        public RoleService(DALFacade facade)
         {
             _facade = facade;
             _converter = new RoleConverter();
@@ -57,7 +58,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.RoleRepository.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -81,15 +82,6 @@ namespace VideoAppBLL.Service
                 var updatedRole = _converter.Convert(roleFromDB);
                 updatedRole.Name = entityToUpdate.Name;
                 return updatedRole;
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.RoleRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }

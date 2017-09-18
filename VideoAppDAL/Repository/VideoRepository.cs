@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
-using VideoAppDAL.Context;
 using VideoAppDAL.Entities;
-using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL.Repository
 {
@@ -26,11 +24,16 @@ namespace VideoAppDAL.Repository
                 .FirstOrDefault(v => v.Id == id);
         }
 
-        public override List<Video> GetAllById(List<int> ids)
+        public override List<Video> GetAllByIds(List<int> ids)
         {
-            return ids == null ?
-                null :
-                Context.Set<Video>().Where(g => ids.Contains(g.Id)).ToList();
+            return ids == null ? null : Context.Set<Video>().Where(g => ids.Contains(g.Id)).ToList();
+        }
+
+        public override Video Update(Video entity)
+        {
+            var entityFromDb = GetById(entity.Id);
+            if (entityFromDb == null) return null;
+            return Context.Update(entity).Entity;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Entities;
 
-namespace VideoAppDAL.Context
+namespace VideoAppDAL.Interfaces
 {
     public interface IVideoContext
     {

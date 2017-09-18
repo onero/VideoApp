@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppGUI", "VideoApp\VideoAppGUI.csproj", "{EE202601-AE74-4E5A-9FF5-CC22F06635E8}"
 EndProject
@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppBLL", "VideoAppBLL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppDAL", "VideoAppDAL\VideoAppDAL.csproj", "{CD5E0C5B-7940-4324-9F9B-4B5C78DFB5DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppBLLTests", "VideoAppBLLTests\VideoAppBLLTests.csproj", "{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppDALTests", "VideoAppBLLTests\VideoAppDALTests.csproj", "{5B58F8A3-38A4-4D79-9E5D-D237FF340B95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoRestAPI", "VideoRestAPI\VideoRestAPI.csproj", "{C7858110-08FA-4466-999F-AF9D2F6B8DED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoRestAPI", "VideoRestAPI\VideoRestAPI.csproj", "{C7858110-08FA-4466-999F-AF9D2F6B8DED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

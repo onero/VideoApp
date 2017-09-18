@@ -3,16 +3,17 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
+using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     public class UserService : IUserService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly UserConverter _converter;
 
-        public UserService(IDALFacade facade)
+        public UserService(DALFacade facade)
         {
             _facade = facade;
             _converter = new UserConverter();
@@ -60,7 +61,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.UserRepository.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -90,15 +91,6 @@ namespace VideoAppBLL.Service
                 var updatedVideo = unitOfWork.UserRepository.Update(userFromRepo);
                 unitOfWork.Complete();
                 return _converter.Convert(updatedVideo);
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.UserRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }

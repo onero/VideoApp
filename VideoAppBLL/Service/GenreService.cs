@@ -10,10 +10,10 @@ namespace VideoAppBLL.Service
 {
     public class GenreService : IGenreService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly GenreConverter _converter;
 
-        public GenreService(IDALFacade facade)
+        public GenreService(DALFacade facade)
         {
             _converter = new GenreConverter();
             _facade = facade;
@@ -58,7 +58,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.GenreRepository.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -87,15 +87,6 @@ namespace VideoAppBLL.Service
                 var updatedVideo = unitOfWork.GenreRepository.Update(genreFromRepo);
                 unitOfWork.Complete();
                 return _converter.Convert(updatedVideo);
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.GenreRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }
