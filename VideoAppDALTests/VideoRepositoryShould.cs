@@ -9,7 +9,7 @@ using Xunit;
 
 namespace VideoAppDALTests
 {
-    public class VideoServiceShould : ITest
+    public class VideoRepositoryShould : ITest
     {
         private const int NonExistingId = 999;
 
@@ -23,9 +23,10 @@ namespace VideoAppDALTests
             Title = "Die Hard"
         };
 
-        public VideoServiceShould()
+        public VideoRepositoryShould()
         {
-            _context = new InMemoryContext(new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase($"{Guid.NewGuid()}").Options);
+            _context = new InMemoryContext(
+                new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase($"{Guid.NewGuid()}").Options);
             _repository = new VideoRepository(_context);
         }
 
