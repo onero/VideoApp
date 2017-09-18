@@ -7,7 +7,7 @@ using VideoAppDAL.Interfaces;
 [assembly: InternalsVisibleTo("VideoAppDALTests")]
 namespace VideoAppDAL.Repository
 {
-    public abstract class ARepository<TEntity> : IRepository<TEntity> where TEntity : class
+    internal abstract class ARepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
 
         protected readonly DbContext Context;
