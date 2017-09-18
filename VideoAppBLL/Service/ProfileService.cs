@@ -3,15 +3,16 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
+using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     public class ProfileService : IProfileService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly ProfileConverter _converter;
-        public ProfileService(IDALFacade dalFacade)
+        public ProfileService(DALFacade dalFacade)
         {
             _facade = dalFacade;
             _converter = new ProfileConverter();
@@ -56,7 +57,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.ProfileRepository.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -86,15 +87,6 @@ namespace VideoAppBLL.Service
                 unitOfWork.ProfileRepository.Update(profileFromDB);
                 unitOfWork.Complete();
                 return _converter.Convert(profileFromDB);
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.ProfileRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Interfaces;
 
+[assembly: InternalsVisibleTo("VideoAppDALTests")]
 namespace VideoAppDAL.Repository
 {
-    public abstract class ARepository<TEntity> : IRepository<TEntity> where TEntity : class
+    internal abstract class ARepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
 
         protected readonly DbContext Context;
@@ -30,7 +32,7 @@ namespace VideoAppDAL.Repository
             return Context.Set<TEntity>().Find(id);
         }
 
-        public abstract List<TEntity> GetAllById(List<int> ids);
+        public abstract List<TEntity> GetAllByIds(List<int> ids);
 
         public bool Delete(int id)
         {
@@ -40,17 +42,6 @@ namespace VideoAppDAL.Repository
             return true;
         }
 
-        public TEntity Update(TEntity entity)
-        {
-            return Context.Update(entity).Entity;
-        }
-
-        public void ClearAll()
-        {
-            foreach (var entity in Context.Set<TEntity>())
-            {
-                Context.Remove(entity);
-            }
-        }
+        public abstract TEntity Update(TEntity entity);
     }
 }

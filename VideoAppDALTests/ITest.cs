@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace VideoAppBLLTests
+﻿namespace VideoAppDALTests
 {
     public interface ITest
     {

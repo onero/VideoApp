@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Entities;
+using VideoAppDAL.Interfaces;
 
 namespace VideoAppDAL.Context
 {

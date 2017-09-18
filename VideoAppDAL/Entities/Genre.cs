@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VideoAppDAL.Entities
 {
@@ -8,5 +9,6 @@ namespace VideoAppDAL.Entities
         public string Name { get; set; }
 
         public List<VideoGenre> Videos { get; set; }
+        
     }
 }

@@ -3,15 +3,16 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
+using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     public class RentalService : IRentalService
     {
-        private readonly IDALFacade _facade;
+        private readonly DALFacade _facade;
         private readonly RentalConverter _converter;
-        public RentalService(IDALFacade dalFacade)
+        public RentalService(DALFacade dalFacade)
         {
             _facade = dalFacade;
             _converter = new RentalConverter();
@@ -64,7 +65,7 @@ namespace VideoAppBLL.Service
             {
                 if (ids == null) return null;
                 return unitOfWork.RentalRepository.
-                    GetAllById(ids).
+                    GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
             }
         }
@@ -92,15 +93,6 @@ namespace VideoAppBLL.Service
                 rental.To = rentalToUpdate.To;
                 unitOfWork.RentalRepository.Update(rental);
                 return _converter.Convert(rental);
-            }
-        }
-
-        public void ClearAll()
-        {
-            using (var unitOfWork = _facade.UnitOfWork)
-            {
-                unitOfWork.RentalRepository.ClearAll();
-                unitOfWork.Complete();
             }
         }
     }

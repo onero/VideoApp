@@ -15,5 +15,6 @@ namespace VideoAppDAL.Entities
 
 
         public List<Rental> Rentals { get; set; } = new List<Rental>();
+        
     }
 }
