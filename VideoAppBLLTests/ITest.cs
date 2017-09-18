@@ -12,6 +12,10 @@ namespace VideoAppBLLTests
 
         void NotGetOneByNonExistingId();
 
+        void GetAllByExistingIds();
+
+        void NotGetAllByNonExistingIds();
+
         void DeleteByExistingId();
 
         void NotDeleteByNonExistingId();

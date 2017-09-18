@@ -52,6 +52,17 @@ namespace VideoAppBLL.Service
             }
         }
 
+        public List<GenreBO> GetAllByIds(List<int> ids)
+        {
+            using (var unitOfWork = _facade.UnitOfWork)
+            {
+                if (ids == null) return null;
+                return unitOfWork.GenreRepository.
+                    GetAllById(ids).
+                    Select(_converter.Convert).ToList();
+            }
+        }
+
         public bool Delete(int id)
         {
             using(var unitOfWork = _facade.UnitOfWork)
