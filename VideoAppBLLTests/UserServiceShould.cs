@@ -26,14 +26,26 @@ namespace VideoAppBLLTests
         {
             Id = 1,
             Username = "Adamino",
-            Password = "Secret"
+            Password = "Secret",
+            RoleId = 1,
+            Role = new Role()
+            {
+                Id = 1,
+                Name = "Admin"
+            }
         };
 
         private readonly UserBO MockUserBO = new UserBO()
         {
             Id = 1,
             Username = "Adamino",
-            Password = "Secret"
+            Password = "Secret",
+            RoleId = 1,
+            Role = new RoleBO()
+            {
+                Id = 1,
+                Name = "Admin"
+            }
         };
 
         private const int NonExistingId = 99;
@@ -134,7 +146,7 @@ namespace VideoAppBLLTests
         [Fact]
         public override void UpdateByExistingId()
         {
-            MockUserRepository.Setup(r => r.GetById(MockUser.Id)).Returns(MockUser);
+            MockUserRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(MockUser);
             MockUserRepository.Setup(r => r.Update(It.IsAny<User>())).Returns((User updatedUser) => updatedUser);
 
             MockUserBO.Username = "DaMan";

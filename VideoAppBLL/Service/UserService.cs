@@ -87,9 +87,9 @@ namespace VideoAppBLL.Service
 
                 userFromRepo.Username = entityToUpdate.Username;
                 userFromRepo.Password = entityToUpdate.Password;
-                var updatedVideo = unitOfWork.UserRepository.Update(userFromRepo);
+                var updatedUser = unitOfWork.UserRepository.Update(userFromRepo);
                 unitOfWork.Complete();
-                return _converter.Convert(updatedVideo);
+                return _converter.Convert(updatedUser);
             }
         }
     }

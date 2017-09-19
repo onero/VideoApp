@@ -10,10 +10,10 @@ namespace VideoAppBLL.Service
 {
     internal class RoleService : IRoleService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly RoleConverter _converter;
 
-        public RoleService(DALFacade facade)
+        public RoleService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new RoleConverter();
@@ -21,6 +21,7 @@ namespace VideoAppBLL.Service
 
         public RoleBO Create(RoleBO entityToCreate)
         {
+            if (entityToCreate == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdRole = unitOfWork.RoleRepository.Create(_converter.Convert(entityToCreate));
@@ -56,7 +57,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.RoleRepository.
                     GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
