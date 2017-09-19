@@ -50,8 +50,10 @@ namespace VideoAppBLL.Service
                 var userFromDB = unitOfWork.UserRepository.GetById(id);
                 if (userFromDB == null) return null;
                 var role = unitOfWork.RoleRepository.GetById(userFromDB.RoleId);
-                if (role == null) return _converter.Convert(userFromDB);
-                userFromDB.Role = role;
+                if (role != null)
+                {
+                    userFromDB.Role = role;
+                }
                 return _converter.Convert(userFromDB);
             }
         }
@@ -60,7 +62,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.UserRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }

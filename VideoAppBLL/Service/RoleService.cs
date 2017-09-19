@@ -79,9 +79,10 @@ namespace VideoAppBLL.Service
             {
                 var roleFromDB = unitOfWork.RoleRepository.GetById(entityToUpdate.Id);
                 if (roleFromDB == null) return null;
-                var updatedRole = _converter.Convert(roleFromDB);
-                updatedRole.Name = entityToUpdate.Name;
-                return updatedRole;
+                roleFromDB.Name = entityToUpdate.Name;
+                unitOfWork.RoleRepository.Update(roleFromDB);
+                unitOfWork.Complete();
+                return _converter.Convert(roleFromDB);
             }
         }
     }

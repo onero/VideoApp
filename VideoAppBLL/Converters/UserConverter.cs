@@ -7,6 +7,7 @@ namespace VideoAppBLL.Converters
     {
         public User Convert(UserBO entity)
         {
+            if (entity == null) return null;
             return new User()
             {
                 Id = entity.Id,
@@ -18,6 +19,7 @@ namespace VideoAppBLL.Converters
 
         public UserBO Convert(User entity)
         {
+            if (entity == null) return null;
             return new UserBO()
             {
                 Id = entity.Id,

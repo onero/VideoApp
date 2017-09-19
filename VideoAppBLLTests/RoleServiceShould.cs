@@ -119,18 +119,18 @@ namespace VideoAppBLLTests
         {
             MockRoleRepository.Setup(r => r.GetById(NonExistingId)).Returns(() => null);
 
-            var entity = _service.GetById(NonExistingId);
+            var deleted = _service.Delete(NonExistingId);
 
-            Assert.Null(entity);
+            Assert.False(deleted);
         }
 
         [Fact]
         public override void UpdateByExistingId()
         {
-            MockRoleBO.Name = "MoqAdmin";
-            MockRoleRepository.Setup(r => r.GetById(MockRoleBO.Id)).Returns(MockRole);
-            MockRoleRepository.Setup(r => r.Update(MockRole)).Returns((Role roleToUpdate) => roleToUpdate);
+            MockRoleRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(MockRole);
+            MockRoleRepository.Setup(r => r.Update(It.IsAny<Role>())).Returns((Role roleToUpdate) => roleToUpdate);
 
+            MockRoleBO.Name = "MoqAdmin";
             var updatedRole = _service.Update(MockRoleBO);
 
             Assert.Equal(MockRoleBO, updatedRole);

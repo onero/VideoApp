@@ -10,15 +10,18 @@ namespace VideoAppBLL.Service
 {
     internal class RentalService : IRentalService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly RentalConverter _converter;
-        public RentalService(DALFacade dalFacade)
+
+        public RentalService(IDALFacade dalFacade)
         {
             _facade = dalFacade;
             _converter = new RentalConverter();
         }
+
         public RentalBO Create(RentalBO rental)
         {
+            if (rental == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdRental = unitOfWork.RentalRepository.Create(_converter.Convert(rental));
@@ -49,12 +52,16 @@ namespace VideoAppBLL.Service
                 if (rental == null) return null;
                 // Get video from rental
                 var video = unitOfWork.VideoRepository.GetById(rental.VideoId);
-                if (video == null) return _converter.Convert(rental);
-                rental.Video = video;
+                if (video != null)
+                {
+                    rental.Video = video;
+                }
                 // Get user from rental
                 var user = unitOfWork.UserRepository.GetById(rental.UserId);
-                if (user == null) return _converter.Convert(rental);
-                rental.User = user;
+                if (user != null)
+                {
+                    rental.User = user;
+                }
                 return _converter.Convert(rental);
             }
         }
@@ -63,10 +70,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
-                return unitOfWork.RentalRepository.
-                    GetAllByIds(ids).
-                    Select(_converter.Convert).ToList();
+                return unitOfWork.RentalRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 
