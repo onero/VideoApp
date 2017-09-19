@@ -26,6 +26,7 @@ namespace VideoAppBLL.Service
 
         public VideoBO Create(VideoBO video)
         {
+            if (video == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdVideo = unitOfWork.VideoRepository.Create(_converter.Convert(video));
@@ -68,8 +69,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
-                return unitOfWork.VideoRepository?.GetAllByIds(ids).Select(_converter.Convert).ToList();
+                return unitOfWork.VideoRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 

@@ -10,10 +10,10 @@ namespace VideoAppBLL.Service
 {
     internal class UserService : IUserService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly UserConverter _converter;
 
-        public UserService(DALFacade facade)
+        public UserService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new UserConverter();
@@ -21,6 +21,7 @@ namespace VideoAppBLL.Service
 
         public UserBO Create(UserBO user)
         {
+            if (user == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdUser = unitOfWork.UserRepository.Create(_converter.Convert(user));
@@ -60,9 +61,7 @@ namespace VideoAppBLL.Service
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 if (ids == null) return null;
-                return unitOfWork.UserRepository.
-                    GetAllByIds(ids).
-                    Select(_converter.Convert).ToList();
+                return unitOfWork.UserRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 
