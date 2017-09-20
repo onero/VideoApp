@@ -10,9 +10,9 @@ namespace VideoAppBLL.Service
 {
     internal class ProfileService : IProfileService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly ProfileConverter _converter;
-        public ProfileService(DALFacade dalFacade)
+        public ProfileService(IDALFacade dalFacade)
         {
             _facade = dalFacade;
             _converter = new ProfileConverter();
@@ -20,6 +20,7 @@ namespace VideoAppBLL.Service
 
         public ProfileBO Create(ProfileBO profile)
         {
+            if (profile == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdProfile = unitOfWork.ProfileRepository.Create(_converter.Convert(profile));
@@ -55,7 +56,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.ProfileRepository.
                     GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
