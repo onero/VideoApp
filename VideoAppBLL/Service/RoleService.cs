@@ -8,12 +8,12 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class RoleService : IRoleService
+    internal class RoleService : IRoleService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly RoleConverter _converter;
 
-        public RoleService(DALFacade facade)
+        public RoleService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new RoleConverter();
@@ -21,6 +21,7 @@ namespace VideoAppBLL.Service
 
         public RoleBO Create(RoleBO entityToCreate)
         {
+            if (entityToCreate == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdRole = unitOfWork.RoleRepository.Create(_converter.Convert(entityToCreate));
@@ -56,7 +57,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.RoleRepository.
                     GetAllByIds(ids).
                     Select(_converter.Convert).ToList();
@@ -79,9 +79,10 @@ namespace VideoAppBLL.Service
             {
                 var roleFromDB = unitOfWork.RoleRepository.GetById(entityToUpdate.Id);
                 if (roleFromDB == null) return null;
-                var updatedRole = _converter.Convert(roleFromDB);
-                updatedRole.Name = entityToUpdate.Name;
-                return updatedRole;
+                roleFromDB.Name = entityToUpdate.Name;
+                unitOfWork.RoleRepository.Update(roleFromDB);
+                unitOfWork.Complete();
+                return _converter.Convert(roleFromDB);
             }
         }
     }

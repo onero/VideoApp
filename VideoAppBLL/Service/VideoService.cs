@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL;
 using VideoAppDAL.Interfaces;
+
+[assembly: InternalsVisibleTo("VideoAppBLLTests")]
 
 namespace VideoAppBLL.Service
 {
     internal class VideoService : IVideoService
     {
-        private readonly DALFacade _facade;
         private readonly VideoConverter _converter;
+        private readonly IDALFacade _facade;
         private readonly GenreConverter _genreConverter;
 
-        public VideoService(DALFacade facade)
+        public VideoService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new VideoConverter();
@@ -24,6 +26,7 @@ namespace VideoAppBLL.Service
 
         public VideoBO Create(VideoBO video)
         {
+            if (video == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdVideo = unitOfWork.VideoRepository.Create(_converter.Convert(video));
@@ -52,11 +55,9 @@ namespace VideoAppBLL.Service
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
                 if (videoFromDB == null) return null;
                 var convertedVideo = _converter.Convert(videoFromDB);
-                if (convertedVideo.GenreIds == null) return convertedVideo;
 
                 // Get all genres for video
-                convertedVideo.Genres = unitOfWork.GenreRepository.
-                    GetAllByIds(convertedVideo.GenreIds)
+                convertedVideo.Genres = unitOfWork.GenreRepository.GetAllByIds(convertedVideo.GenreIds)
                     .Select(g => _genreConverter.Convert(g))
                     .ToList();
                 return convertedVideo;
@@ -67,10 +68,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
-                return unitOfWork.VideoRepository?.
-                    GetAllByIds(ids).
-                    Select(_converter.Convert).ToList();
+                return unitOfWork.VideoRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 

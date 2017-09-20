@@ -1,6 +1,6 @@
 ﻿namespace VideoAppDALTests
 {
-    public interface ITest
+    public interface IRepositoryTest
     {
         void CreateOne();
 

@@ -37,7 +37,7 @@ namespace VideoAppDAL.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Video> Videos { set; get; }
+        public DbSet<Video> Videos { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Genre> Genres { get; set; }

@@ -8,12 +8,12 @@ using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
         private readonly UserConverter _converter;
 
-        public UserService(DALFacade facade)
+        public UserService(IDALFacade facade)
         {
             _facade = facade;
             _converter = new UserConverter();
@@ -21,6 +21,7 @@ namespace VideoAppBLL.Service
 
         public UserBO Create(UserBO user)
         {
+            if (user == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdUser = unitOfWork.UserRepository.Create(_converter.Convert(user));
@@ -49,8 +50,10 @@ namespace VideoAppBLL.Service
                 var userFromDB = unitOfWork.UserRepository.GetById(id);
                 if (userFromDB == null) return null;
                 var role = unitOfWork.RoleRepository.GetById(userFromDB.RoleId);
-                if (role == null) return _converter.Convert(userFromDB);
-                userFromDB.Role = role;
+                if (role != null)
+                {
+                    userFromDB.Role = role;
+                }
                 return _converter.Convert(userFromDB);
             }
         }
@@ -59,10 +62,7 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
-                return unitOfWork.UserRepository.
-                    GetAllByIds(ids).
-                    Select(_converter.Convert).ToList();
+                return unitOfWork.UserRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
 
@@ -88,9 +88,9 @@ namespace VideoAppBLL.Service
 
                 userFromRepo.Username = entityToUpdate.Username;
                 userFromRepo.Password = entityToUpdate.Password;
-                var updatedVideo = unitOfWork.UserRepository.Update(userFromRepo);
+                var updatedUser = unitOfWork.UserRepository.Update(userFromRepo);
                 unitOfWork.Complete();
-                return _converter.Convert(updatedVideo);
+                return _converter.Convert(updatedUser);
             }
         }
     }
