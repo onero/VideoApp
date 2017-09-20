@@ -58,7 +58,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.GenreRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }
