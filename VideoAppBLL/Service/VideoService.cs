@@ -55,9 +55,8 @@ namespace VideoAppBLL.Service
                 var videoFromDB = unitOfWork.VideoRepository.GetById(id);
                 if (videoFromDB == null) return null;
                 var convertedVideo = _converter.Convert(videoFromDB);
-
                 // Get all genres for video
-                convertedVideo.Genres = unitOfWork.GenreRepository.GetAllByIds(convertedVideo.GenreIds)
+                convertedVideo.Genres = unitOfWork.GenreRepository.GetAllByIds(convertedVideo.GenreIds)?
                     .Select(g => _genreConverter.Convert(g))
                     .ToList();
                 return convertedVideo;

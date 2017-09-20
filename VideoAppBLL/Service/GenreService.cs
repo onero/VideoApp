@@ -5,15 +5,16 @@ using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
 using VideoAppDAL;
+using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
 {
     internal class GenreService : IGenreService
     {
         private readonly GenreConverter _converter;
-        private readonly DALFacade _facade;
+        private readonly IDALFacade _facade;
 
-        public GenreService(DALFacade facade)
+        public GenreService(IDALFacade facade)
         {
             _converter = new GenreConverter();
             _facade = facade;
@@ -21,6 +22,7 @@ namespace VideoAppBLL.Service
 
         public GenreBO Create(GenreBO genre)
         {
+            if (genre == null) return null;
             using (var unitOfWork = _facade.UnitOfWork)
             {
                 var createdGenre = unitOfWork.GenreRepository.Create(_converter.Convert(genre));
@@ -56,7 +58,6 @@ namespace VideoAppBLL.Service
         {
             using (var unitOfWork = _facade.UnitOfWork)
             {
-                if (ids == null) return null;
                 return unitOfWork.GenreRepository.GetAllByIds(ids).Select(_converter.Convert).ToList();
             }
         }

@@ -33,7 +33,8 @@ namespace VideoAppBLLTests
         private readonly VideoBO MockVideoBO = new VideoBO
         {
             Id = 1,
-            Title = "Die Hard"
+            Title = "Die Hard",
+            GenreIds = new List<int>() {1}
         };
 
         [Fact]
@@ -113,6 +114,20 @@ namespace VideoAppBLLTests
 
             Assert.NotNull(entity);
             Assert.NotEmpty(entity.Genres);
+        }
+
+        [Fact]
+        public void GetOneWithoutGenreByExistingId_WhenGenreDoNotExist()
+        {
+            MockVideoRepository.Setup(r => r.GetById(MockVideoBO.Id)).Returns(MockVideo);
+            var mockGenreRepository = new Mock<IRepository<Genre>>();
+            MockUOW.Setup(uow => uow.GenreRepository).Returns(mockGenreRepository.Object);
+            mockGenreRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(() => null);
+            
+            var entity = _service.GetById(MockVideoBO.Id);
+
+            Assert.NotNull(entity);
+
         }
 
         [Fact]

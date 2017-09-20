@@ -7,6 +7,7 @@ namespace VideoAppBLL.Converters
     {
         public Role Convert(RoleBO entity)
         {
+            if (entity == null) return null;
             return new Role()
             {
                 Id = entity.Id,
@@ -16,6 +17,7 @@ namespace VideoAppBLL.Converters
 
         public RoleBO Convert(Role entity)
         {
+            if (entity == null) return null;
             return new RoleBO()
             {
                 Id = entity.Id,
