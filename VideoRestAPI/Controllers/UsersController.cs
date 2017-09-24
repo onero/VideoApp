@@ -14,8 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class UsersController : AController<UserBO>
     {
-        public UsersController() : base(new BLLFacade().UserService)
+        public UsersController()
         {
+            Service = new BLLFacade().UserService;
         }
     }
 }

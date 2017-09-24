@@ -14,8 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class RentalsController : AController<RentalBO>
     {
-        public RentalsController() : base(new BLLFacade().RentalService)
+        public RentalsController()
         {
+            Service = new BLLFacade().RentalService;
         }
     }
 }

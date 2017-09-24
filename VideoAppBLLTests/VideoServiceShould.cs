@@ -122,11 +122,12 @@ namespace VideoAppBLLTests
             MockVideoRepository.Setup(r => r.GetById(MockVideoBO.Id)).Returns(MockVideo);
             var mockGenreRepository = new Mock<IRepository<Genre>>();
             MockUOW.Setup(uow => uow.GenreRepository).Returns(mockGenreRepository.Object);
-            mockGenreRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(() => null);
+            mockGenreRepository.Setup(r => r.GetAllByIds(It.IsAny<List<int>>())).Returns(() => null);
             
             var entity = _service.GetById(MockVideoBO.Id);
 
             Assert.NotNull(entity);
+            Assert.Null(entity.Genres);
 
         }
 

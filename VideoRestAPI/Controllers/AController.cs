@@ -8,12 +8,7 @@ namespace VideoRestAPI.Controllers
 {
     public abstract class AController<TEntity> : Controller
     {
-        protected readonly IService<TEntity> Service;
-
-        protected AController(IService<TEntity> service)
-        {
-            Service = service;
-        }
+        protected IService<TEntity> Service;
 
         // GET api/TEntity
         [HttpGet]
