@@ -9,6 +9,7 @@ namespace VideoAppBLL.BusinessObjects
         public int Id { get; set; }
 
         [Required]
+        [MinLength(2)]
         public string Title { get; set; }
 
         public List<int> GenreIds { get; set; }

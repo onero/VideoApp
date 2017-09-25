@@ -14,8 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/Roles")]
     public class RolesController : AController<RoleBO>
     {
-        public RolesController() : base(new BLLFacade().RoleService)
+        public RolesController()
         {
+            Service = new BLLFacade().RoleService;
         }
     }
 }

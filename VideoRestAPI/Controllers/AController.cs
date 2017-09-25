@@ -8,12 +8,7 @@ namespace VideoRestAPI.Controllers
 {
     public abstract class AController<TEntity> : Controller
     {
-        protected readonly IService<TEntity> Service;
-
-        protected AController(IService<TEntity> service)
-        {
-            Service = service;
-        }
+        protected IService<TEntity> Service;
 
         // GET api/TEntity
         [HttpGet]
@@ -46,7 +41,7 @@ namespace VideoRestAPI.Controllers
 
         // PUT api/TEntity/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] TEntity entity)
+        public virtual IActionResult Put(int id, [FromBody] TEntity entity)
         {
             // Validate TEntity is valid JSON
             if (entity == null) return BadRequest(ErrorMessages.InvalidJSON);
