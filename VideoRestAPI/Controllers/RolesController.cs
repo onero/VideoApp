@@ -18,5 +18,24 @@ namespace VideoRestAPI.Controllers
         {
             Service = new BLLFacade().RoleService;
         }
+
+        public override IActionResult Put(int id, [FromBody]RoleBO entity)
+        {
+            // Validate TEntity is valid JSON
+            if (entity == null) return BadRequest(ErrorMessages.InvalidJSON);
+
+            // Validate that URL ID matches entity ID
+            if (id != entity.Id)
+                return BadRequest(ErrorMessages.IdDoesNotMatchMessage(id));
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var result = Service.Update(entity);
+
+            if (result == null)
+                return NotFound(ErrorMessages.IdWasNotFoundMessage(id));
+
+            return Ok("Updated!");
+        }
     }
 }

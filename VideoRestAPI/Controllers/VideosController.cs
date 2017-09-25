@@ -10,9 +10,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class VideosController : AController<VideoBO>
     {
-        public VideosController(IVideoService service = null)
+        public VideosController(IVideoService service)
         {
-            Service = service ?? new BLLFacade().VideoService;
+            Service = service;
         }
 
         [HttpPut("{id}")]

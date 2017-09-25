@@ -10,13 +10,13 @@ namespace VideoRestAPITests
 {
     public class VideosControllerShould : IControllerTest
     {
+        private readonly Mock<IVideoService> MockVideoService = new Mock<IVideoService>(MockBehavior.Strict);
+        private readonly VideosController _controller;
+
         public VideosControllerShould()
         {
             _controller = new VideosController(MockVideoService.Object);
         }
-
-        private readonly Mock<IVideoService> MockVideoService = new Mock<IVideoService>(MockBehavior.Strict);
-        private readonly VideosController _controller;
 
         private readonly VideoBO MockVideoBO = new VideoBO
         {

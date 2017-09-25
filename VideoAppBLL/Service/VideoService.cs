@@ -8,6 +8,7 @@ using VideoAppBLL.Interfaces;
 using VideoAppDAL.Interfaces;
 
 [assembly: InternalsVisibleTo("VideoAppBLLTests")]
+[assembly: InternalsVisibleTo("VideoRestAPI")]
 
 namespace VideoAppBLL.Service
 {
