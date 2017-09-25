@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoAppBLL.BusinessObjects
 {
@@ -7,8 +8,10 @@ namespace VideoAppBLL.BusinessObjects
         public int Id { get; set; }
         public DateTime From { get; set; } = DateTime.Now;
         public DateTime To { get; set; } = DateTime.Now.AddDays(7);
+        [Required]
         public int VideoId { get; set; }
         public VideoBO Video { get; set; }
+        [Required]
         public int UserId { get; set; }
         public UserBO User { get; set; }
 

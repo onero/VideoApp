@@ -14,9 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class RentalsController : AController<RentalBO>
     {
-        public RentalsController()
+        public RentalsController(IRentalService service)
         {
-            Service = new BLLFacade().RentalService;
+            Service = service;
         }
 
         public override IActionResult Put(int id, [FromBody]RentalBO entity)
