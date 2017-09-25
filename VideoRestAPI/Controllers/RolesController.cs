@@ -14,9 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/Roles")]
     public class RolesController : AController<RoleBO>
     {
-        public RolesController()
+        public RolesController(IRoleService service)
         {
-            Service = new BLLFacade().RoleService;
+            Service = service;
         }
 
         public override IActionResult Put(int id, [FromBody]RoleBO entity)
