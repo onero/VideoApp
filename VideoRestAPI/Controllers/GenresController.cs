@@ -14,8 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class GenresController : AController<GenreBO>
     {
-        public GenresController() : base(new BLLFacade().GenreService)
+        public GenresController()
         {
+            Service = new BLLFacade().GenreService;
         }
     }
 }

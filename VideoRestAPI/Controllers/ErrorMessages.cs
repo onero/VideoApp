@@ -1,6 +1,6 @@
 ﻿namespace VideoRestAPI.Controllers
 {
-    internal static class ErrorMessages
+    public static class ErrorMessages
     {
         public static string IdWasNotFoundMessage(int id) => 
             $"Id: {id} - doesn't exist";

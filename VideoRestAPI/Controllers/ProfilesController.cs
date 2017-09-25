@@ -10,8 +10,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class ProfilesController : AController<ProfileBO>
     {
-        public ProfilesController() : base(new BLLFacade().ProfileService)
+        public ProfilesController()
         {
+            Service = new BLLFacade().ProfileService;
         }
     }
 }
