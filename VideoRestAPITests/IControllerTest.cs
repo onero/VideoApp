@@ -7,9 +7,10 @@
         void NotGetByNonExistingId_ReturnNotFound();
         void PostWithValidObject();
         void NotPostWithInvalidObject_ReturnBadRequest();
-        void NotPostWithEmptyObject_ReturnBadRequest();
+        void NotPostWithNull_ReturnBadRequest();
         void UpdateWithValidObject_ReturnOk();
-        void NotUpdateWithEmptyObject_ReturnBadRequest();
+        void NotUpdateWithNull_ReturnBadRequest();
+        void NotUpdateWithMisMatchingIds_ReturnBadRequest();
         void NotUpdateWithInvalidObject_ReturnBadRequest();
         void NotUpdateWithNonExistingId_ReturnNotFound();
         void DeleteByExistingId_ReturnOk();
