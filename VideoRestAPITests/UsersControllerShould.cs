@@ -60,61 +60,108 @@ namespace VideoRestAPITests
         [Fact]
         public void PostWithValidObject()
         {
-            throw new System.NotImplementedException();
+            MockUserService.Setup(r => r.Create(It.IsAny<UserBO>())).Returns((UserBO newUser) => newUser);
+
+            var result = _controller.Post(MockUser);
+
+            Assert.IsType<CreatedResult>(result);
         }
 
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _controller.ModelState.AddModelError("", "");
+
+            var result = _controller.Post(new UserBO());
+
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Post(null);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Contains(ErrorMessages.InvalidJSON, message);
         }
 
         [Fact]
         public void UpdateWithValidObject_ReturnOk()
         {
-            throw new System.NotImplementedException();
+            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns((UserBO updated) => updated);
+
+            var result = _controller.Put(MockUser.Id, MockUser);
+
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Put(0, null);
+
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Contains(ErrorMessages.InvalidJSON, message);
         }
 
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Put(0, MockUser);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Contains(ErrorMessages.IdDoesNotMatchMessage(0), message);
         }
 
         [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _controller.ModelState.AddModelError("", "");
+
+            var result = _controller.Put(0, new UserBO());
+
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns(() => null);
+
+            var result = _controller.Put(MockUser.Id, MockUser);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
         }
 
         [Fact]
         public void DeleteByExistingId_ReturnOk()
         {
-            throw new System.NotImplementedException();
+            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(true);
+
+            var result = _controller.Delete(MockUser.Id);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Contains("Deleted", message);
         }
 
         [Fact]
         public void NotDeleteByNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(false);
+
+            var result = _controller.Delete(MockUser.Id);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
         }
     }
 }
