@@ -27,6 +27,7 @@ namespace VideoRestAPI
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IRentalService, RentalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
