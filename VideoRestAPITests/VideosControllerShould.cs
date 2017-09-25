@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
@@ -12,25 +10,36 @@ namespace VideoRestAPITests
 {
     public class VideosControllerShould : IControllerTest
     {
-        private readonly Mock<IVideoService> MockVideoService = new Mock<IVideoService>(MockBehavior.Strict);
-        private readonly VideosController _controller;
-
-        private readonly VideoBO MockVideoBO = new VideoBO()
-        {
-            Id = 1,
-            Title = "Die Hard"
-        };
-
-
         public VideosControllerShould()
         {
             _controller = new VideosController(MockVideoService.Object);
         }
 
+        private readonly Mock<IVideoService> MockVideoService = new Mock<IVideoService>(MockBehavior.Strict);
+        private readonly VideosController _controller;
+
+        private readonly VideoBO MockVideoBO = new VideoBO
+        {
+            Id = 1,
+            Title = "Die Hard"
+        };
+
+        [Fact]
+        public void DeleteByExistingId_ReturnOk()
+        {
+            MockVideoService.Setup(s => s.Delete(MockVideoBO.Id)).Returns(true);
+
+            var result = _controller.Delete(MockVideoBO.Id);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Contains("Deleted", message);
+        }
+
         [Fact]
         public void GetAll()
         {
-            MockVideoService.Setup(r => r.GetAll()).Returns(new List<VideoBO>() {MockVideoBO});
+            MockVideoService.Setup(r => r.GetAll()).Returns(new List<VideoBO> {MockVideoBO});
 
             var result = _controller.Get();
 
@@ -48,6 +57,18 @@ namespace VideoRestAPITests
         }
 
         [Fact]
+        public void NotDeleteByNonExistingId_ReturnNotFound()
+        {
+            MockVideoService.Setup(s => s.Delete(0)).Returns(false);
+
+            var result = _controller.Delete(0);
+            var message = RequestObjectResultMessage.GetMessage(result);
+
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
+        }
+
+        [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
             MockVideoService.Setup(s => s.GetById(It.IsAny<int>())).Returns(() => null);
@@ -57,17 +78,6 @@ namespace VideoRestAPITests
 
             Assert.IsType<NotFoundObjectResult>(result);
             Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
-        }
-
-        [Fact]
-        public void PostWithValidObject()
-        {
-            MockVideoService.Setup(s => s.Create(It.IsAny<VideoBO>())).Returns(new VideoBO());
-
-            var video = new VideoBO() {Id = 1, Title = "Die Hard"};
-            var result = _controller.Post(video);
-
-            Assert.IsType<CreatedResult>(result);
         }
 
         [Fact]
@@ -93,32 +103,17 @@ namespace VideoRestAPITests
         }
 
         [Fact]
-        public void UpdateWithValidObject_ReturnOk()
-        {
-            MockVideoService.Setup(s => s.Create(It.IsAny<VideoBO>())).Returns(new VideoBO());
-            MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
-
-            _controller.Post(MockVideoBO);
-
-            MockVideoBO.Title = "Die Mega Hard";
-
-            var updated = _controller.Put(MockVideoBO.Id, MockVideoBO);
-            var message = RequestObjectResultMessage.GetMessage(updated);
-
-            Assert.IsType<OkObjectResult>(updated);
-            Assert.Contains("Updated!", message);
-        }
-
-        [Fact]
-        public void NotUpdateWithNull_ReturnBadRequest()
+        public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
             MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
 
-            var result = _controller.Put(0, null);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var video = new VideoBO();
+
+            _controller.ModelState.AddModelError("", "");
+
+            var result = _controller.Put(0, video);
 
             Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Contains(ErrorMessages.InvalidJSON, message);
         }
 
         [Fact]
@@ -134,20 +129,6 @@ namespace VideoRestAPITests
         }
 
         [Fact]
-        public void NotUpdateWithInvalidObject_ReturnBadRequest()
-        {
-            MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
-
-            var video = new VideoBO();
-
-            _controller.ModelState.AddModelError("", "");
-
-            var result = _controller.Put(0, video);
-
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-
-        [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
             MockVideoService.Setup(s => s.Update(MockVideoBO)).Returns(() => null);
@@ -160,27 +141,43 @@ namespace VideoRestAPITests
         }
 
         [Fact]
-        public void DeleteByExistingId_ReturnOk()
+        public void NotUpdateWithNull_ReturnBadRequest()
         {
-            MockVideoService.Setup(s => s.Delete(MockVideoBO.Id)).Returns(true);
+            MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
 
-            var result = _controller.Delete(MockVideoBO.Id);
+            var result = _controller.Put(0, null);
             var message = RequestObjectResultMessage.GetMessage(result);
 
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Contains("Deleted", message);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Contains(ErrorMessages.InvalidJSON, message);
         }
 
         [Fact]
-        public void NotDeleteByNonExistingId_ReturnNotFound()
+        public void PostWithValidObject()
         {
-            MockVideoService.Setup(s => s.Delete(0)).Returns(false);
+            MockVideoService.Setup(s => s.Create(It.IsAny<VideoBO>())).Returns(new VideoBO());
 
-            var result = _controller.Delete(0);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var video = new VideoBO {Id = 1, Title = "Die Hard"};
+            var result = _controller.Post(video);
 
-            Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
+            Assert.IsType<CreatedResult>(result);
+        }
+
+        [Fact]
+        public void UpdateWithValidObject_ReturnOk()
+        {
+            MockVideoService.Setup(s => s.Create(It.IsAny<VideoBO>())).Returns(new VideoBO());
+            MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
+
+            _controller.Post(MockVideoBO);
+
+            MockVideoBO.Title = "Die Mega Hard";
+
+            var updated = _controller.Put(MockVideoBO.Id, MockVideoBO);
+            var message = RequestObjectResultMessage.GetMessage(updated);
+
+            Assert.IsType<OkObjectResult>(updated);
+            Assert.Contains("Updated!", message);
         }
     }
 }

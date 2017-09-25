@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
+using VideoAppBLL.Interfaces;
+using VideoRestAPI.Controllers;
 
 namespace VideoRestAPI
 {
