@@ -2,7 +2,7 @@
 
 namespace VideoRestAPITests
 {
-    internal static class RequestObjectResultMessage
+    internal static class ResultMessageService
     {
         public static string GetMessage(IActionResult result)
         {
