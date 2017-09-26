@@ -29,12 +29,6 @@ namespace VideoAppBLL.Service
             }
         }
 
-
-        public IList<ProfileBO> CreateAll(IList<ProfileBO> customers)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public IList<ProfileBO> GetAll()
         {
             using (var unitOfWork = _facade.UnitOfWork)

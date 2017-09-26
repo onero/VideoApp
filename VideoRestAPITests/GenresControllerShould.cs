@@ -8,27 +8,26 @@ using Xunit;
 
 namespace VideoRestAPITests
 {
-    public class UsersControllerShould : IControllerTest
+    public class GenresControllerShould : IControllerTest
     {
-        private readonly Mock<IUserService> MockUserService = new Mock<IUserService>(MockBehavior.Strict);
-        private readonly UsersController _controller;
+        private readonly Mock<IGenreService> MockGenreService = new Mock<IGenreService>(MockBehavior.Strict);
+        private readonly GenresController _controller;
 
-        public UsersControllerShould()
+        public GenresControllerShould()
         {
-            _controller = new UsersController(MockUserService.Object);
+            _controller = new GenresController(MockGenreService.Object);
         }
 
-        private UserBO MockUser = new UserBO()
+        private readonly GenreBO MockGenre = new GenreBO()
         {
             Id = 1,
-            Username = "Adamino",
-            Password = "Secret"
+            Name = "Action"
         };
-
+        
         [Fact]
         public void GetAll()
         {
-            MockUserService.Setup(r => r.GetAll()).Returns(new List<UserBO>(){MockUser});
+            MockGenreService.Setup(r => r.GetAll()).Returns(new List<GenreBO>(){MockGenre});
 
             var result = _controller.Get();
 
@@ -38,9 +37,9 @@ namespace VideoRestAPITests
         [Fact]
         public void GetByExistingId()
         {
-            MockUserService.Setup(r => r.GetById(MockUser.Id)).Returns(MockUser);
+            MockGenreService.Setup(r => r.GetById(MockGenre.Id)).Returns(MockGenre);
 
-            var result = _controller.Get(MockUser.Id);
+            var result = _controller.Get(MockGenre.Id);
 
             Assert.IsType<ObjectResult>(result);
         }
@@ -48,21 +47,21 @@ namespace VideoRestAPITests
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.GetById(0)).Returns(() => null);
+            MockGenreService.Setup(r => r.GetById(MockGenre.Id)).Returns(() => null);
 
-            var result = _controller.Get(0);
+            var result = _controller.Get(MockGenre.Id);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockGenre.Id), message);
         }
 
         [Fact]
         public void PostWithValidObject()
         {
-            MockUserService.Setup(r => r.Create(It.IsAny<UserBO>())).Returns((UserBO newUser) => newUser);
+            MockGenreService.Setup(r => r.Create(It.IsAny<GenreBO>())).Returns((GenreBO newGenre) => newGenre);
 
-            var result = _controller.Post(MockUser);
+            var result = _controller.Post(MockGenre);
 
             Assert.IsType<CreatedResult>(result);
         }
@@ -72,7 +71,7 @@ namespace VideoRestAPITests
         {
             _controller.ModelState.AddModelError("", "");
 
-            var result = _controller.Post(new UserBO());
+            var result = _controller.Post(new GenreBO());
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -90,18 +89,19 @@ namespace VideoRestAPITests
         [Fact]
         public void UpdateWithValidObject_ReturnOk()
         {
-            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns((UserBO updated) => updated);
+            MockGenreService.Setup(r => r.Update(It.IsAny<GenreBO>())).Returns((GenreBO updatedGenre) => updatedGenre);
 
-            var result = _controller.Put(MockUser.Id, MockUser);
+            var result = _controller.Put(MockGenre.Id, MockGenre);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<OkObjectResult>(result);
+            Assert.Contains("Updated!", message);
         }
 
         [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(0, null);
-
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
@@ -111,7 +111,7 @@ namespace VideoRestAPITests
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            var result = _controller.Put(0, MockUser);
+            var result = _controller.Put(0, MockGenre);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
@@ -123,7 +123,7 @@ namespace VideoRestAPITests
         {
             _controller.ModelState.AddModelError("", "");
 
-            var result = _controller.Put(0, new UserBO());
+            var result = _controller.Put(0, new GenreBO());
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -131,21 +131,21 @@ namespace VideoRestAPITests
         [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns(() => null);
+            MockGenreService.Setup(r => r.Update(MockGenre)).Returns(() => null);
 
-            var result = _controller.Put(MockUser.Id, MockUser);
+            var result = _controller.Put(MockGenre.Id, MockGenre);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockGenre.Id), message);
         }
 
         [Fact]
         public void DeleteByExistingId_ReturnOk()
         {
-            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(true);
+            MockGenreService.Setup(r => r.Delete(MockGenre.Id)).Returns(true);
 
-            var result = _controller.Delete(MockUser.Id);
+            var result = _controller.Delete(MockGenre.Id);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<OkObjectResult>(result);
@@ -155,13 +155,13 @@ namespace VideoRestAPITests
         [Fact]
         public void NotDeleteByNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(false);
+            MockGenreService.Setup(r => r.Delete(MockGenre.Id)).Returns(false);
 
-            var result = _controller.Delete(MockUser.Id);
+            var result = _controller.Delete(MockGenre.Id);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockGenre.Id), message);
         }
     }
 }

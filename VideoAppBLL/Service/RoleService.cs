@@ -3,7 +3,6 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service
@@ -28,11 +27,6 @@ namespace VideoAppBLL.Service
                 unitOfWork.Complete();
                 return _converter.Convert(createdRole);
             }
-        }
-
-        public IList<RoleBO> CreateAll(IList<RoleBO> customers)
-        {
-            throw new System.NotImplementedException();
         }
 
         public IList<RoleBO> GetAll()

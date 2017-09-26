@@ -8,27 +8,26 @@ using Xunit;
 
 namespace VideoRestAPITests
 {
-    public class UsersControllerShould : IControllerTest
+    public class RolesControllerShould : IControllerTest
     {
-        private readonly Mock<IUserService> MockUserService = new Mock<IUserService>(MockBehavior.Strict);
-        private readonly UsersController _controller;
+        private readonly Mock<IRoleService> MockRoleService = new Mock<IRoleService>(MockBehavior.Strict);
+        private readonly RolesController _controller;
 
-        public UsersControllerShould()
+        public RolesControllerShould()
         {
-            _controller = new UsersController(MockUserService.Object);
+            _controller = new RolesController(MockRoleService.Object);
         }
 
-        private UserBO MockUser = new UserBO()
+        private RoleBO MockRole = new RoleBO()
         {
             Id = 1,
-            Username = "Adamino",
-            Password = "Secret"
+            Name = "Admin"
         };
 
         [Fact]
         public void GetAll()
         {
-            MockUserService.Setup(r => r.GetAll()).Returns(new List<UserBO>(){MockUser});
+            MockRoleService.Setup(r => r.GetAll()).Returns(new List<RoleBO>{MockRole});
 
             var result = _controller.Get();
 
@@ -38,9 +37,9 @@ namespace VideoRestAPITests
         [Fact]
         public void GetByExistingId()
         {
-            MockUserService.Setup(r => r.GetById(MockUser.Id)).Returns(MockUser);
+            MockRoleService.Setup(r => r.GetById(MockRole.Id)).Returns(MockRole);
 
-            var result = _controller.Get(MockUser.Id);
+            var result = _controller.Get(MockRole.Id);
 
             Assert.IsType<ObjectResult>(result);
         }
@@ -48,7 +47,7 @@ namespace VideoRestAPITests
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.GetById(0)).Returns(() => null);
+            MockRoleService.Setup(r => r.GetById(0)).Returns(() => null);
 
             var result = _controller.Get(0);
             var message = ResultMessageService.GetMessage(result);
@@ -60,9 +59,9 @@ namespace VideoRestAPITests
         [Fact]
         public void PostWithValidObject()
         {
-            MockUserService.Setup(r => r.Create(It.IsAny<UserBO>())).Returns((UserBO newUser) => newUser);
+            MockRoleService.Setup(r => r.Create(It.IsAny<RoleBO>())).Returns((RoleBO newRole) => newRole);
 
-            var result = _controller.Post(MockUser);
+            var result = _controller.Post(MockRole);
 
             Assert.IsType<CreatedResult>(result);
         }
@@ -72,7 +71,7 @@ namespace VideoRestAPITests
         {
             _controller.ModelState.AddModelError("", "");
 
-            var result = _controller.Post(new UserBO());
+            var result = _controller.Post(new RoleBO());
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -90,18 +89,19 @@ namespace VideoRestAPITests
         [Fact]
         public void UpdateWithValidObject_ReturnOk()
         {
-            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns((UserBO updated) => updated);
+            MockRoleService.Setup(r => r.Update(It.IsAny<RoleBO>())).Returns((RoleBO updatedRole) => updatedRole);
 
-            var result = _controller.Put(MockUser.Id, MockUser);
+            var result = _controller.Put(MockRole.Id, MockRole);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<OkObjectResult>(result);
+            Assert.Contains("Updated!", message);
         }
 
         [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(0, null);
-
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
@@ -111,7 +111,7 @@ namespace VideoRestAPITests
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            var result = _controller.Put(0, MockUser);
+            var result = _controller.Put(0, MockRole);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
@@ -122,8 +122,8 @@ namespace VideoRestAPITests
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
             _controller.ModelState.AddModelError("", "");
-
-            var result = _controller.Put(0, new UserBO());
+            
+            var result = _controller.Put(0, new RoleBO());
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -131,21 +131,21 @@ namespace VideoRestAPITests
         [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.Update(It.IsAny<UserBO>())).Returns(() => null);
+            MockRoleService.Setup(r => r.Update(MockRole)).Returns(() => null);
 
-            var result = _controller.Put(MockUser.Id, MockUser);
+            var result = _controller.Put(MockRole.Id, MockRole);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockRole.Id), message);
         }
 
         [Fact]
         public void DeleteByExistingId_ReturnOk()
         {
-            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(true);
+            MockRoleService.Setup(r => r.Delete(MockRole.Id)).Returns(true);
 
-            var result = _controller.Delete(MockUser.Id);
+            var result = _controller.Delete(MockRole.Id);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<OkObjectResult>(result);
@@ -155,13 +155,13 @@ namespace VideoRestAPITests
         [Fact]
         public void NotDeleteByNonExistingId_ReturnNotFound()
         {
-            MockUserService.Setup(r => r.Delete(MockUser.Id)).Returns(false);
+            MockRoleService.Setup(r => r.Delete(0)).Returns(false);
 
-            var result = _controller.Delete(MockUser.Id);
+            var result = _controller.Delete(0);
             var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockUser.Id), message);
+            Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
         }
     }
 }
