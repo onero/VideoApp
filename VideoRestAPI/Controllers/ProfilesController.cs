@@ -10,9 +10,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class ProfilesController : AController<ProfileBO>
     {
-        public ProfilesController()
+        public ProfilesController(IProfileService service)
         {
-            Service = new BLLFacade().ProfileService;
+            Service = service;
         }
 
         public override IActionResult Put(int id, [FromBody]ProfileBO entity)

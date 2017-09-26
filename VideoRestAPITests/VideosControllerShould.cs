@@ -30,7 +30,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.Delete(MockVideoBO.Id)).Returns(true);
 
             var result = _controller.Delete(MockVideoBO.Id);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<OkObjectResult>(result);
             Assert.Contains("Deleted", message);
@@ -62,7 +62,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.Delete(0)).Returns(false);
 
             var result = _controller.Delete(0);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
             Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
@@ -74,7 +74,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.GetById(It.IsAny<int>())).Returns(() => null);
 
             var result = _controller.Get(0);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
             Assert.Contains(ErrorMessages.IdWasNotFoundMessage(0), message);
@@ -96,7 +96,7 @@ namespace VideoRestAPITests
         {
             MockVideoService.Setup(s => s.Create(It.IsAny<VideoBO>())).Returns(new VideoBO());
             var result = _controller.Post(null);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.Contains(ErrorMessages.InvalidJSON, message);
@@ -122,7 +122,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
 
             var result = _controller.Put(0, MockVideoBO);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.Contains(ErrorMessages.IdDoesNotMatchMessage(0), message);
@@ -134,7 +134,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.Update(MockVideoBO)).Returns(() => null);
 
             var result = _controller.Put(MockVideoBO.Id, MockVideoBO);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<NotFoundObjectResult>(result);
             Assert.Contains(ErrorMessages.IdWasNotFoundMessage(MockVideoBO.Id), message);
@@ -146,7 +146,7 @@ namespace VideoRestAPITests
             MockVideoService.Setup(s => s.Update(It.IsAny<VideoBO>())).Returns(new VideoBO());
 
             var result = _controller.Put(0, null);
-            var message = RequestObjectResultMessage.GetMessage(result);
+            var message = ResultMessageService.GetMessage(result);
 
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.Contains(ErrorMessages.InvalidJSON, message);
@@ -174,7 +174,7 @@ namespace VideoRestAPITests
             MockVideoBO.Title = "Die Mega Hard";
 
             var updated = _controller.Put(MockVideoBO.Id, MockVideoBO);
-            var message = RequestObjectResultMessage.GetMessage(updated);
+            var message = ResultMessageService.GetMessage(updated);
 
             Assert.IsType<OkObjectResult>(updated);
             Assert.Contains("Updated!", message);
