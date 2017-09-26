@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using VideoAppBLL.BusinessObjects;
@@ -34,11 +33,6 @@ namespace VideoAppBLL.Service
                 unitOfWork.Complete();
                 return _converter.Convert(createdVideo);
             }
-        }
-
-        public IList<VideoBO> CreateAll(IList<VideoBO> customers)
-        {
-            throw new NotImplementedException();
         }
 
         public IList<VideoBO> GetAll()

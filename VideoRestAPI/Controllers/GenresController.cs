@@ -14,9 +14,9 @@ namespace VideoRestAPI.Controllers
     [Route("api/[controller]")]
     public class GenresController : AController<GenreBO>
     {
-        public GenresController()
+        public GenresController(IGenreService service)
         {
-            Service = new BLLFacade().GenreService;
+            Service = service;
         }
 
         public override IActionResult Put(int id, [FromBody]GenreBO entity)

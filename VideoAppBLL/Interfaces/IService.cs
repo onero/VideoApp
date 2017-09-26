@@ -6,8 +6,6 @@ namespace VideoAppBLL.Interfaces
     {
         TEntity Create(TEntity entityToCreate);
 
-        IList<TEntity> CreateAll(IList<TEntity> customers);
-
         IList<TEntity> GetAll();
 
         TEntity GetById(int id);
