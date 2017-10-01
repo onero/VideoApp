@@ -41,6 +41,13 @@ namespace VideoRestAPI
             }
 
             app.UseMvc();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
         }
     }
 }
