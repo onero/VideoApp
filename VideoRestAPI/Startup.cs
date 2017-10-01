@@ -23,6 +23,14 @@ namespace VideoRestAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddCors(o => o.AddPolicy("LocalPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddScoped<IDALFacade, DALFacade>();
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IUserService, UserService>();
@@ -41,13 +49,6 @@ namespace VideoRestAPI
             }
 
             app.UseMvc();
-
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-            });
         }
     }
 }
