@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using VideoAppBLL;
 using VideoAppBLL.BusinessObjects;
@@ -7,6 +9,7 @@ using VideoAppDAL;
 
 namespace VideoRestAPI.Controllers
 {
+    // [EnableCors("LocalPolicy")] To activate individual CORS access
     [Route("api/[controller]")]
     public class VideosController : AController<VideoBO>
     {
