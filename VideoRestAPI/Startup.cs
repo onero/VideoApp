@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VideoAppBLL;
+using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using VideoAppBLL.Service;
 using VideoAppDAL;
@@ -24,6 +27,10 @@ namespace VideoRestAPI
                 builder.AddUserSecrets<Startup>();
             }
             Configuration = builder.Build();
+
+            SQLContext.ConnectionString = environment.IsDevelopment() ? 
+                Configuration["DefaultConnection"] : 
+                Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }
@@ -50,6 +57,7 @@ namespace VideoRestAPI
             //    options.Filters.Add(new RequireHttpsAttribute());
             //});
 
+
             services.AddScoped<IDALFacade, DALFacade>();
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IUserService, UserService>();
@@ -66,11 +74,10 @@ namespace VideoRestAPI
             //var options = new RewriteOptions().AddRedirectToHttps();
             //app.UseRewriter(options);
 
-
-            SQLContext.ConnectionString = env.IsDevelopment() ? 
-                Configuration.GetConnectionString("DefaultConnection") : 
-                Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             // Setup CORS
             app.UseCors(builder => builder.WithOrigins(Localhost, Azurehost)
