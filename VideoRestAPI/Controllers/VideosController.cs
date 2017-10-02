@@ -9,7 +9,7 @@ using VideoAppDAL;
 
 namespace VideoRestAPI.Controllers
 {
-    [EnableCors("LocalPolicy")]
+    // [EnableCors("LocalPolicy")] To activate individual CORS access
     [Route("api/[controller]")]
     public class VideosController : AController<VideoBO>
     {

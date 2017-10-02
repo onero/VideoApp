@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VideoAppBLL;
@@ -22,14 +24,23 @@ namespace VideoRestAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc();
 
-            services.AddCors(o => o.AddPolicy("LocalPolicy", builder =>
-            {
-                builder.WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+            // CORS for individual activation on controller
+            //services.AddCors(o => o.AddPolicy("LocalPolicy", builder =>
+            //{
+            //    builder.WithOrigins("http://localhost:4200")
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader();
+            //}));
+
+            // HTTPS
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new RequireHttpsAttribute());
+            //});
 
             services.AddScoped<IDALFacade, DALFacade>();
             services.AddScoped<IVideoService, VideoService>();
@@ -43,12 +54,22 @@ namespace VideoRestAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Use Redirect
+            //var options = new RewriteOptions().AddRedirectToHttps();
+            //app.UseRewriter(options);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            // Setup CORS
+            app.UseCors(builder => builder.
+            WithOrigins("http://localhost:4200").
+            AllowAnyMethod());
+
             app.UseMvc();
+
         }
     }
 }
