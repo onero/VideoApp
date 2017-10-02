@@ -14,6 +14,9 @@ namespace VideoRestAPI
 {
     public class Startup
     {
+        private const string Localhost = "http://localhost:4200";
+        private const string Azurehost = "";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -65,8 +68,9 @@ namespace VideoRestAPI
 
             // Setup CORS
             app.UseCors(builder => builder.
-            WithOrigins("http://localhost:4200").
-            AllowAnyMethod());
+            WithOrigins(Localhost, Azurehost)
+            .AllowAnyMethod()
+            .AllowCredentials());
 
             app.UseMvc();
 
