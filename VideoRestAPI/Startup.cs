@@ -19,6 +19,8 @@ namespace VideoRestAPI
         private const string Localhost = "http://localhost:4200";
         private const string Azurehost = "";
 
+        public IConfiguration Configuration { get; }
+
         public Startup(IHostingEnvironment environment)
         {
             var builder = new ConfigurationBuilder();
@@ -32,8 +34,6 @@ namespace VideoRestAPI
                 Configuration["DefaultConnection"] : 
                 Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
