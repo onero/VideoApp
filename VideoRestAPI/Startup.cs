@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VideoAppBLL;
 using VideoAppBLL.Interfaces;
 using VideoAppBLL.Service;
 using VideoAppDAL;
+using VideoAppDAL.Context;
 using VideoAppDAL.Interfaces;
 
 namespace VideoRestAPI
@@ -20,6 +22,9 @@ namespace VideoRestAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var builder = new ConfigurationBuilder();
+            builder.AddUserSecrets<Startup>();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -30,6 +35,9 @@ namespace VideoRestAPI
             services.AddCors();
 
             services.AddMvc();
+
+            SQLContext.ConnectionString = Configuration["DBConnectionString"];
+            //services.AddDbContext<SQLContext>(options => options.UseSqlServer(Configuration["DBConnectionString"]));
 
             // CORS for individual activation on controller
             //services.AddCors(o => o.AddPolicy("LocalPolicy", builder =>
@@ -60,6 +68,7 @@ namespace VideoRestAPI
             // Use Redirect
             //var options = new RewriteOptions().AddRedirectToHttps();
             //app.UseRewriter(options);
+
 
             if (env.IsDevelopment())
             {
