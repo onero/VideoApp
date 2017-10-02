@@ -10,22 +10,14 @@ namespace VideoAppDAL.Context
     public sealed class SQLContext : DbContext, IVideoContext
     {
 
-        private static readonly string DBConnectionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConnection.txt");
-        private static readonly string ConnectionString = File.ReadAllText(DBConnectionPath);
+        //private static readonly string DBConnectionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConnection.txt");
+        //private static readonly string ConnectionString = File.ReadAllText(DBConnectionPath);
 
+        public static string ConnectionString = "";
         public SQLContext()
         {
-            
+            Database.EnsureCreated();
         }
-
-        public SQLContext(DbContextOptions<SQLContext> options) : base(options)
-        {
-            //DbInitializer.Initialize(this);
-        }
-        //public SQLContext()
-        //{
-        //    Database.EnsureCreated();
-        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

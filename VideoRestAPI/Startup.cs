@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VideoAppBLL;
 using VideoAppBLL.Interfaces;
 using VideoAppBLL.Service;
 using VideoAppDAL;
@@ -19,11 +16,13 @@ namespace VideoRestAPI
         private const string Localhost = "http://localhost:4200";
         private const string Azurehost = "";
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment environment)
         {
-            Configuration = configuration;
             var builder = new ConfigurationBuilder();
-            builder.AddUserSecrets<Startup>();
+            if (environment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
             Configuration = builder.Build();
         }
 
@@ -35,8 +34,6 @@ namespace VideoRestAPI
             services.AddCors();
 
             services.AddMvc();
-
-            //SQLContext.ConnectionString = Configuration["DBConnectionString"];
             //services.AddDbContext<SQLContext>(options => options.UseSqlServer(Configuration["DBConnectionString"]));
 
             // CORS for individual activation on controller
@@ -70,19 +67,17 @@ namespace VideoRestAPI
             //app.UseRewriter(options);
 
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            SQLContext.ConnectionString = env.IsDevelopment() ? 
+                Configuration.GetConnectionString("DefaultConnection") : 
+                Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
+            app.UseDeveloperExceptionPage();
 
             // Setup CORS
-            app.UseCors(builder => builder.
-            WithOrigins(Localhost, Azurehost)
-            .AllowAnyMethod()
-            .AllowCredentials());
+            app.UseCors(builder => builder.WithOrigins(Localhost, Azurehost)
+                .AllowAnyMethod()
+                .AllowCredentials());
 
             app.UseMvc();
-
         }
     }
 }
