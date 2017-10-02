@@ -36,7 +36,7 @@ namespace VideoRestAPI
 
             services.AddMvc();
 
-            SQLContext.ConnectionString = Configuration["DBConnectionString"];
+            //SQLContext.ConnectionString = Configuration["DBConnectionString"];
             //services.AddDbContext<SQLContext>(options => options.UseSqlServer(Configuration["DBConnectionString"]));
 
             // CORS for individual activation on controller
