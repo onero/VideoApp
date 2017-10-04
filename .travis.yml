@@ -17,7 +17,7 @@ notifications:
   email: false
   slack:
     rooms:
-      - $repo
+      - cs2016a:MrE8tgSmsfcVCMVTa1JgT78G
     on_success: change
     on_failure: always
     template:
