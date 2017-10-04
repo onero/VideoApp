@@ -31,7 +31,7 @@ namespace VideoRestAPITests
 
             var result = _controller.Get();
 
-            Assert.NotEmpty(result);
+            Assert.Empty(result);
         }
 
         [Fact]
