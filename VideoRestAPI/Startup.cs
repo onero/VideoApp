@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VideoAppBLL;
-using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Interfaces;
 using VideoAppBLL.Service;
 using VideoAppDAL;
@@ -16,22 +13,17 @@ namespace VideoRestAPI
 {
     public class Startup
     {
-
-        public IConfiguration Configuration { get; }
-
         public Startup(IHostingEnvironment environment)
         {
             var builder = new ConfigurationBuilder();
             if (environment.IsDevelopment())
-            {
                 builder.AddUserSecrets<Startup>();
-            }
             Configuration = builder.Build();
 
-            SQLContext.ConnectionString = environment.IsDevelopment() ? 
-                Configuration["DefaultConnection"] : 
-                Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
+            SQLContext.ConnectionString = environment.IsDevelopment() ? Configuration["DefaultConnection"] : Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
         }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -73,9 +65,7 @@ namespace VideoRestAPI
             //app.UseRewriter(options);
 
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             // Setup CORS
             //app.UseCors(builder => builder.WithOrigins(Localhost, Azurehost)

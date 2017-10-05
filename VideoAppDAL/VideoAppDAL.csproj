@@ -7,13 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
-    <PackageReference Include="Moq" Version="4.7.99" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="DBConnection.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="Moq" Version="4.7.137" />
   </ItemGroup>
 
 </Project>
