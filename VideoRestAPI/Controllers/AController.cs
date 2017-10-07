@@ -50,7 +50,7 @@ namespace VideoRestAPI.Controllers
             var deleted = Service.Delete(id);
             if (!deleted) return NotFound(ErrorMessages.IdWasNotFoundMessage(id));
 
-            return Ok("Deleted");
+            return Ok(true);
         }
     }
 }
