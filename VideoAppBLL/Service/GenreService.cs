@@ -3,7 +3,6 @@ using System.Linq;
 using VideoAppBLL.BusinessObjects;
 using VideoAppBLL.Converters;
 using VideoAppBLL.Interfaces;
-using VideoAppDAL;
 using VideoAppDAL.Interfaces;
 
 namespace VideoAppBLL.Service

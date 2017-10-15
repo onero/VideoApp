@@ -38,8 +38,8 @@ namespace VideoAppDAL.Context
              * the address links to addressId as foreign key
              * */
             modelBuilder.Entity<VideoGenre>()
-                .HasOne(vg => vg.Video)
-                .WithMany(g => g.Genres)
+                .HasOne(vg => vg.Genre)
+                .WithMany(g => g.Videos)
                 .HasForeignKey(vg => vg.GenreId);
 
             /* One customer in CustomerAddress is one customer from Customer table,
@@ -47,9 +47,10 @@ namespace VideoAppDAL.Context
              * the customer links to customerId as foreign key
             */
             modelBuilder.Entity<VideoGenre>()
-                .HasOne(vg => vg.Genre)
-                .WithMany(v => v.Videos)
-                .HasForeignKey(vg => vg.GenreId);
+                .HasOne(vg => vg.Video)
+                .WithMany(v => v.Genres)
+                .HasForeignKey(vg => vg.VideoId);
+
             base.OnModelCreating(modelBuilder);
         }
 

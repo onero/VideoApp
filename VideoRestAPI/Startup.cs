@@ -20,7 +20,9 @@ namespace VideoRestAPI
                 builder.AddUserSecrets<Startup>();
             Configuration = builder.Build();
 
-            SQLContext.ConnectionString = environment.IsDevelopment() ? Configuration["DefaultConnection"] : Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
+            SQLContext.ConnectionString = environment.IsDevelopment() ? 
+                Configuration["DefaultConnection"] : 
+                Environment.GetEnvironmentVariable("SQLAZURECONNSTR_DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }
@@ -70,6 +72,7 @@ namespace VideoRestAPI
             // Setup CORS
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200")
                 .AllowAnyMethod()
+                .AllowAnyHeader()
                 .AllowCredentials());
 
             app.UseMvc();
