@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using VideoAppDAL.Entities;
 using VideoAppDAL.Interfaces;
 
@@ -7,7 +8,8 @@ namespace VideoAppDAL.Context
     public class InMemoryContext : DbContext, IVideoContext
     {
         //Options that we want in memory
-        public InMemoryContext(DbContextOptions<InMemoryContext> options) : base(options)
+        public InMemoryContext() : base(
+            new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase($"{Guid.NewGuid()}").Options)
         {
         }
 
@@ -24,7 +26,7 @@ namespace VideoAppDAL.Context
             modelBuilder.Entity<VideoGenre>()
                 .HasOne(vg => vg.Video)
                 .WithMany(g => g.Genres)
-                .HasForeignKey(vg => vg.GenreId);
+                .HasForeignKey(vg => vg.VideoId);
 
             /* One customer in CustomerAddress is one customer from Customer table,
              * however that one customer can have many addresses,

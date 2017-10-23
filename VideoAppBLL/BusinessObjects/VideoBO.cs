@@ -12,6 +12,8 @@ namespace VideoAppBLL.BusinessObjects
         [MinLength(2)]
         public string Title { get; set; }
 
+        public string Img { get; set; }
+
         public List<int> GenreIds { get; set; }
 
         public List<GenreBO> Genres { get; set; }

@@ -25,8 +25,7 @@ namespace VideoAppDALTests
 
         public VideoRepositoryShould()
         {
-            _context = new InMemoryContext(
-                new DbContextOptionsBuilder<InMemoryContext>().UseInMemoryDatabase($"{Guid.NewGuid()}").Options);
+            _context = new InMemoryContext();
             _repository = new VideoRepository(_context);
         }
 

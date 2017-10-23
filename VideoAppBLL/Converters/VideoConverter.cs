@@ -18,6 +18,7 @@ namespace VideoAppBLL.Converters
             {
                 Id = video.Id,
                 Title = video.Title,
+                Img = video.Img,
                 GenreIds = video.Genres?.Select(g => g.GenreId).ToList(),
                 PricePerDay = video.PricePerDay
             };
@@ -35,6 +36,7 @@ namespace VideoAppBLL.Converters
             {
                 Id = video.Id,
                 Title = video.Title,
+                Img = video.Img,
                 Genres = video.GenreIds?.Select(gId => new VideoGenre()
                 {
                     VideoId = video.Id,

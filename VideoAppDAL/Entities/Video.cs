@@ -9,6 +9,8 @@ namespace VideoAppDAL.Entities
 
         public string Title { get; set; }
 
+        public string Img { get; set; }
+
         public List<VideoGenre> Genres { get; set; }
 
         public double PricePerDay { get; set; } = 10;
